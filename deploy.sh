@@ -1,15 +1,15 @@
 #!/usr/bin/env sh
 
-# 发生任何错误时终止
+# 發生任何錯誤時终止
 set -e
 
-# 构建
+# 構建
 npm run build
 
-# 进入输出产物文件夹
+# 進入輸出產物資料夾
 cd dist
 
-# 如果你要部署到自定义域名
+# 如果你要部署到自定義域名
 # echo 'www.example.com' > CNAME
 
 git init
