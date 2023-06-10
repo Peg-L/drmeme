@@ -1,0 +1,1 @@
+import{_ as e,o,c as t}from"./index-d5e597de.js";const{VITE_TEXT:s}={VITE_APP_URL:"https://vue3-course-api.hexschool.io/",VITE_APP_PATH:"drmeme",BASE_URL:"/drmeme/",MODE:"production",DEV:!1,PROD:!0,SSR:!1},r={data(){return{data:{}}},mounted(){console.log(s)}};function a(c,n,_,u,p,l){return o(),t("h1",null,"This is About page.")}const i=e(r,[["render",a]]);export{i as default};
