@@ -1,9 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Iceberg&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Iceberg&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap");
 
-@import 'bootstrap/scss/functions';
-@import './variables';
-@import 'bootstrap/scss/bootstrap';
+@import "bootstrap/scss/functions";
+@import "./variables";
+@import "bootstrap/scss/bootstrap";
+@import "./utilities";
 
-@import './front-layout';
-@import './reboot';
+@import "./index/index";
+@import "./front-layout";
+@import "./reboot";

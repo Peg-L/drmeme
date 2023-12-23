@@ -404,7 +404,7 @@ select {
 // Set the cursor for non-`<button>` buttons
 //
 // Details at https://github.com/twbs/bootstrap/pull/30562
-[role='button'] {
+[role="button"] {
   cursor: pointer;
 }
 
@@ -422,7 +422,7 @@ select {
 // Remove the dropdown arrow only from text type inputs built with datalists in Chrome.
 // See https://stackoverflow.com/a/54997118
 
-[list]:not([type='date']):not([type='datetime-local']):not([type='month']):not([type='week']):not([type='time'])::-webkit-calendar-picker-indicator {
+[list]:not([type="date"]):not([type="datetime-local"]):not([type="month"]):not([type="week"]):not([type="time"])::-webkit-calendar-picker-indicator {
   display: none !important;
 }
 
@@ -513,7 +513,7 @@ legend {
 //    be added to `.form-control` as it's not specific enough. For details, see
 //    https://github.com/twbs/bootstrap/issues/11586.
 
-[type='search'] {
+[type="search"] {
   outline-offset: -2px; // 1
   -webkit-appearance: textfield; // 2
 }

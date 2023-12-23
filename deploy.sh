@@ -21,6 +21,6 @@ git commit -m 'deploy'
 # git push -f git@github.com:Peg-L/Peg-L.github.io.git master
 
 # 如果你要部署在 https://Peg-L.github.io/vite-deploy-week6
-git push -f git@github.com:Peg-L/vite-deploy-week6.git main:gh-pages
+git push -f git@github.com:Peg-L/drmeme.git main:gh-pages
 
 cd -
