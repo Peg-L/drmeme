@@ -23,5 +23,7 @@ module.exports = {
     semi: 'off',
     'comma-dangle': 'off',
     'space-before-function-paren': 0,
+    'no-unused-vars': 'off',
+    camelcase: 'off',
   },
 };

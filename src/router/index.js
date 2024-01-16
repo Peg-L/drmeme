@@ -3,17 +3,15 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 const routes = [
   {
     path: '/',
-    component: () => import('../views/IndexLayout.vue'),
+    component: () => import('../views/FrontView.vue'),
     children: [
       {
         path: '',
-        name: 'Home',
         component: () => import('../views/front/HomeView.vue'),
       },
       {
-        path: 'about',
-        name: 'About',
-        component: () => import('../views/front/AboutView.vue'),
+        path: 'articles',
+        component: () => import('../views/front/ArticlesView.vue'),
       },
       {
         path: 'products',
@@ -28,10 +26,14 @@ const routes = [
         component: () => import('../views/front/CartView.vue'),
       },
       {
-        path: 'login',
-        component: () => import('../views/front/LoginView.vue'),
+        path: 'faq',
+        component: () => import('../views/front/FaqView.vue'),
       },
     ],
+  },
+  {
+    path: '/adminLogin',
+    component: () => import('../views/AdminLogin.vue'),
   },
   {
     path: '/admin',
