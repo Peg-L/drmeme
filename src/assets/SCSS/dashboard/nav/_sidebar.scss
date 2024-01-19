@@ -1,0 +1,11 @@
+.sidebar {
+  width: 6.5rem;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+@include media-breakpoint-up(md) {
+  .sidebar {
+    width: 14rem;
+  }
+}
