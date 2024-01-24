@@ -1,77 +1,123 @@
 <template>
-  <div class="container">
-    <div class="row py-3">
-      <div class="col-md-6">
-        <h2>產品列表</h2>
-        <table class="table table-hover mt-4">
-          <thead>
-            <tr>
-              <th width="150">產品名稱</th>
-              <th width="120">原價</th>
-              <th width="120">售價</th>
-              <th width="150">是否啟用</th>
-              <th width="120">查看細節</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="product in products" :key="product.id">
-              <td width="150">{{ product.title }}</td>
-              <td width="120">{{ product.origin_price }}</td>
-              <td width="120">{{ product.price }}</td>
-              <td width="150">
-                <span :class="{ 'text-success': product.is_enabled }">{{
-                  product.is_enabled ? '啟用' : '未啟用'
-                }}</span>
-              </td>
-              <td width="120">
-                <button
-                  type="button"
-                  class="btn btn-primary-500 text-light fw-bold"
-                  @click="showProductDetail(product)"
+  <div>
+    <div class="py-3">
+      <h2>產品列表</h2>
+      <table class="table table-hover mt-4">
+        <thead>
+          <tr>
+            <th>產品名稱</th>
+            <th width="120">原價</th>
+            <th width="120">售價</th>
+            <th width="120">是否啟用</th>
+            <th width="120">編輯</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="product in products" :key="product.id">
+            <td>{{ product.title }}</td>
+            <td>{{ product.origin_price }}</td>
+            <td>{{ product.price }}</td>
+            <td>
+              <span :class="{ 'text-success': product.is_enabled }">{{
+                product.is_enabled ? '啟用' : '未啟用'
+              }}</span>
+            </td>
+            <td>
+              <button
+                type="button"
+                class="btn btn-success text-light fw-bold"
+                data-bs-toggle="modal"
+                data-bs-target="#productModal"
+                @click="editProductDetail(product)"
+              >
+                編輯
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-danger fw-bold"
+                data-bs-toggle="modal"
+                data-bs-target="#deleteModal"
+              >
+                刪除
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        目前有
+        <span>{{ products ? 0 : products.length }}</span> 項產品
+      </p>
+    </div>
+  </div>
+
+  <!-- editProduct modal -->
+  <div
+    class="modal fade"
+    id="productModal"
+    tabindex="-1"
+    aria-labelledby="productModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="productModalLabel">編輯產品</h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-4">
+              <div>
+                <label for="imageUrl" class="form-label">主要圖片</label>
+                <input
+                  type="url"
+                  class="form-control mb-2"
+                  id="imageUrl"
+                  placeholder="請輸入主圖連結"
+                  aria-describedby="productHelp"
+                  v-model="tempProduct.imageUrl"
+                />
+                <img :src="tempProduct.imageUrl" :alt="tempProduct.title" />
+              </div>
+              <div class="mt-4">
+                <h4>多圖新增</h4>
+                <div
+                  v-for="(image, index) in tempProduct.imagesUrl"
+                  :key="image"
                 >
-                  查看細節
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <p>
-          目前有
-          <span>{{ products ? 0 : products.length }}</span> 項產品
-        </p>
-      </div>
-      <div class="col-md-6">
-        <h2>單一產品細節</h2>
-        <template v-if="tempProduct.title">
-          <div class="card mb-3">
-            <img
-              :src="tempProduct.imageUrl"
-              class="card-img-top primary-image"
-              alt="主圖"
-            />
-            <div class="card-body">
-              <h5 class="card-title">
-                {{ tempProduct.title }}
-                <span class="badge bg-primary ms-2">{{
-                  tempProduct.category
-                }}</span>
-              </h5>
-              <p class="card-text">商品描述：{{ tempProduct.description }}</p>
-              <p class="card-text">商品內容：{{}}</p>
-              <div class="d-flex">
-                <p class="card-text me-2">{{ tempProduct.price }}</p>
-                <p class="card-text text-secondary">
-                  <del>{{ tempProduct.origin_price }}</del>
-                </p>
-                元 / {{ tempProduct.unit }}
+                  <div class="mb-3">
+                    <label for="imageUrl" class="form-label">圖片網址</label>
+                    <input
+                      id="imageUrl"
+                      type="text"
+                      v-model="tempProduct.imagesUrl[index]"
+                      class="form-control"
+                      placeholder="請輸入圖片連結"
+                    />
+                  </div>
+                  <img class="img-fluid" :src="image" />
+                </div>
               </div>
             </div>
+            <div class="col-8"></div>
           </div>
-          <template>
-            <img src="" alt="" class="images m-2" />
-          </template>
-        </template>
-        <p v-else class="text-secondary">請選擇一個商品查看</p>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary-500"
+            data-bs-dismiss="modal"
+          >
+            取消
+          </button>
+          <button type="button" class="btn btn-primary-500">確認</button>
+        </div>
       </div>
     </div>
   </div>
@@ -108,7 +154,7 @@ export default {
           console.log(err);
         });
     },
-    showProductDetail(product) {
+    editProductDetail(product) {
       this.tempProduct = product;
     },
   },

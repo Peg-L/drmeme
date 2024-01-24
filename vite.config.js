@@ -3,6 +3,7 @@ import vue from '@vitejs/plugin-vue';
 import eslintPlugin from 'vite-plugin-eslint';
 import { fileURLToPath, URL } from 'node:url';
 import liveReload from 'vite-plugin-live-reload';
+import { type } from 'node:os';
 
 // https://vitejs.dev/config/
 export default defineConfig({

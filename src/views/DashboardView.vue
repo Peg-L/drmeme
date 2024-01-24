@@ -1,12 +1,23 @@
 <template>
-  <router-link to="/admin/products">後台產品列表</router-link> |
-  <router-link to="/admin/orders">後台訂單列表</router-link> |
-  <router-link to="/">回前台首頁</router-link> |
-  <a href="#" @click.prevent="logout">登出</a>
+  <div class="wrapper d-flex">
+    <!-- sidebar -->
+    <ul class="navbar-nav bg-primary-500 bg-gradient sidebar">
+      <router-link class="text-light py-6 fs-3" to="/admin/products"
+        >後台產品列表</router-link
+      >
+      <router-link class="text-light py-6 fs-3" to="/admin/orders"
+        >後台訂單列表</router-link
+      >
+      <router-link class="text-light py-6 fs-3" to="/">回前台首頁</router-link>
+      <a class="text-light py-6 fs-3" href="#" @click.prevent="logout">登出</a>
+    </ul>
+    <!-- end of sidebar -->
 
-  <hr />
-  <div class="container">
-    <router-view></router-view>
+    <!-- content wrapper -->
+    <div class="content-wrapper container">
+      <router-view></router-view>
+    </div>
+    <!-- end of content wrapper-->
   </div>
 </template>
 <script>

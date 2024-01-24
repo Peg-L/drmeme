@@ -281,7 +281,7 @@
   <div class="container pt-20 pb-0 py-md-30">
     <div class="border-none border border-md-12 border-dark p-md-2">
       <div
-        class="border-none border border-md-4 border-secondary-700 border-style-dashed p-md-15"
+        class="border-none border-dashed border-dashed-secondary-700 p-md-15"
       >
         <div class="row justify-content-center">
           <!-- podcast 區塊標題 -->
@@ -495,6 +495,136 @@
           <span class="material-symbols-outlined fs-1">
             arrow_circle_right
           </span>
+        </div>
+      </div>
+    </div>
+    <!-- 波浪動畫 -->
+    <svg
+      class="waves"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      viewBox="0 24 150 28"
+      preserveAspectRatio="none"
+      shape-rendering="auto"
+    >
+      <defs>
+        <path
+          id="gentle-wave"
+          d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
+        />
+      </defs>
+      <g class="parallax">
+        <use
+          xlink:href="#gentle-wave"
+          x="48"
+          y="0"
+          fill="rgba(255,255,255,0.7"
+        />
+        <use
+          xlink:href="#gentle-wave"
+          x="48"
+          y="3"
+          fill="rgba(255,255,255,0.5)"
+        />
+        <use
+          xlink:href="#gentle-wave"
+          x="48"
+          y="5"
+          fill="rgba(255,255,255,0.3)"
+        />
+        <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
+      </g>
+    </svg>
+  </div>
+
+  <!-- 粉絲＆聽眾好評 -->
+  <div class="container py-20 py-md-30">
+    <div class="row g-6">
+      <!-- 好評標題 -->
+      <div class="flex-column align-items-center mb-10 mb-md-20">
+        <h3 class="fs-5 ff-sans-en text-secondary-600 text-center">
+          <span class="decoball decoball-1 ls-4">FEEDBACK</span>
+        </h3>
+        <h2 class="fs-3 fs-md-2 fw-bold mt-2 mt-md-5 text-center">
+          <span class="decoball decoball-2">粉絲＆聽眾好評</span>
+        </h2>
+      </div>
+
+      <!-- 好評內容 -->
+      <div class="col-md-6">
+        <div
+          class="p-6 p-md-10 border-dashed border-dashed-primary-500 d-flex flex-column h-100"
+        >
+          <div class="fs-3 fw-bold">
+            <i class="fa-solid fa-podcast me-2 text-secondary-500"></i
+            >段考仔救贖
+          </div>
+          <div class="flex-grow-1">
+            <p class="fs-5">
+              最近突然看到Dr.命的ig帳號發現很有趣就追蹤了，雖然我也不是要考醫學系但也是水深火熱學測生，聽完覺得很有幫助讀書讀到快爆炸的時候聽這個podcast感覺很棒，希望之後還會持續更新很多內容(((o(ﾟ▽ﾟ
+              )o)))
+            </p>
+          </div>
+          <div class="fs-6 align-self-end mt-6 mt-md-4">
+            <div>2020/07/09</div>
+            <div>yanlingm0</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div
+          class="p-6 p-md-10 border-dashed border-dashed-secondary-500 d-flex flex-column h-100"
+        >
+          <div class="fs-3 fw-bold">
+            <i class="fa-brands fa-spotify me-2 text-secondary-500"></i
+            >最喜歡幹話了
+          </div>
+          <div class="flex-grow-1">
+            <p class="fs-5">國考地獄的休息時間中聽迷因的談話真的很紓壓</p>
+          </div>
+
+          <div class="fs-6 align-self-end mt-6 mt-md-4">
+            <div>2020/08/14</div>
+            <div>客服實在不行</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div
+          class="p-6 p-md-10 border-dashed border-dashed-secondary-500 d-flex flex-column h-100"
+        >
+          <div class="fs-3 fw-bold">
+            <i class="fa-brands fa-instagram me-2 text-secondary-500"></i>：）
+          </div>
+          <div class="flex-grow-1">
+            <p class="fs-5">
+              因為欣賞的人有追ig所以就跟著追 改變我對罵髒話的看法 聽了收獲很多
+              也受過版主的開導 讓我從黑暗看見光明不再頹廢 真的很感謝🙏😇😇😇
+            </p>
+          </div>
+          <div class="fs-6 align-self-end mt-6 mt-md-4">
+            <div>2020/09/05</div>
+            <div>❤️🤎💜💙🧡</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div
+          class="p-6 p-md-10 border-dashed border-dashed-primary-500 d-flex flex-column h-100"
+        >
+          <div class="fs-3 fw-bold">
+            <i class="fa-solid fa-podcast me-2 text-secondary-500"></i
+            >謝謝命的分享
+          </div>
+          <div class="flex-grow-1">
+            <p class="fs-5">
+              謝謝命的分享讓我們對於斜槓有更進一步的觀念也知道了一些平常比較沒有聽說的事情🤫相信幹部們跟學妹都對平常較沒有接觸的世界有了不同的看法還有視角💯
+            </p>
+          </div>
+          <div class="fs-6 align-self-end mt-6 mt-md-4">
+            <div>2022/05/17</div>
+            <div>_smms10_</div>
+          </div>
         </div>
       </div>
     </div>
@@ -800,8 +930,8 @@ h1 {
       no-repeat center / cover;
   }
   &-4 {
-    background: url('../../assets/images/products/heart-hoody-w1.jpg') no-repeat
-      center / cover;
+    background: url('../../assets/images/products/heart-hoody-w1-front.jpg')
+      no-repeat center / cover;
   }
   &-5 {
     background: url('../../assets/images/products/heart-t-shirt-b1-2.png')
@@ -810,6 +940,104 @@ h1 {
   &-6 {
     background: url('../../assets/images/products/heart-hoody-b1-front.jpg')
       no-repeat center / cover;
+  }
+}
+
+// 海浪動畫
+.waves {
+  position: relative;
+  color: red;
+  width: 100%;
+  height: 15vh;
+  margin-bottom: -7px;
+  min-height: 100px;
+  max-height: 150px;
+}
+
+.parallax > use {
+  animation: move-forever 25s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
+}
+.parallax > use:nth-child(1) {
+  animation-delay: -2s;
+  animation-duration: 7s;
+}
+.parallax > use:nth-child(2) {
+  animation-delay: -3s;
+  animation-duration: 10s;
+}
+.parallax > use:nth-child(3) {
+  animation-delay: -4s;
+  animation-duration: 13s;
+}
+.parallax > use:nth-child(4) {
+  animation-delay: -5s;
+  animation-duration: 20s;
+}
+@keyframes move-forever {
+  0% {
+    transform: translate3d(-90px, 0, 0);
+  }
+  100% {
+    transform: translate3d(85px, 0, 0);
+  }
+}
+
+@media (max-width: 768px) {
+  .waves {
+    height: 40px;
+    min-height: 40px;
+  }
+}
+
+@mixin border-dashed($color) {
+  background-image: repeating-linear-gradient(
+      0deg,
+      $color,
+      $color 14px,
+      transparent 14px,
+      transparent 26px,
+      $color 26px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      $color,
+      $color 14px,
+      transparent 14px,
+      transparent 26px,
+      $color 26px
+    ),
+    repeating-linear-gradient(
+      180deg,
+      $color,
+      $color 14px,
+      transparent 14px,
+      transparent 26px,
+      $color 26px
+    ),
+    repeating-linear-gradient(
+      270deg,
+      $color,
+      $color 14px,
+      transparent 14px,
+      transparent 26px,
+      $color 26px
+    );
+  background-size: 4px 100%, 100% 4px, 4px 100%, 100% 4px;
+  background-position: 0 0, 0 0, 100% 0, 0 100%;
+  background-repeat: no-repeat;
+}
+
+.border-dashed {
+  &.border-dashed-primary-500 {
+    @include border-dashed($primary-500);
+  }
+
+  &.border-dashed-secondary-500 {
+    @include border-dashed($secondary-500);
+  }
+
+  &.border-dashed-secondary-700 {
+    @include border-dashed($secondary-700);
   }
 }
 </style>
