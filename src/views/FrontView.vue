@@ -17,7 +17,7 @@
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span class="navbar-toggler-icon"></span>
+          <span class="navbar-toggler-hamburger"></span>
         </label>
       </div>
       <div class="collapse navbar-collapse" id="navbarContent">
@@ -183,9 +183,9 @@ h1 {
   align-items: center;
   justify-content: center;
 
-  &-icon,
-  &-icon::before,
-  &-icon::after {
+  &-hamburger,
+  &-hamburger::before,
+  &-hamburger::after {
     background-image: none;
     display: block;
     content: '';
@@ -193,17 +193,21 @@ h1 {
     position: absolute;
     height: 2px;
     width: 30px;
-    transition: transform 400ms cubic-bezier(0.23, 1, 0.32, 1);
     border-radius: 4px;
+    transition: transform 0.5s ease-in-out, background-color 0.5s ease-in;
   }
 
-  &-icon {
+  &-hamburger {
+    transform-origin: 8px 0px;
+
     &::before {
       margin-top: -8px;
+      transform-origin: 0% 0%;
     }
 
     &::after {
       margin-top: 8px;
+      transform-origin: 0% 100%;
     }
   }
 
@@ -218,17 +222,15 @@ h1 {
 
   &:checked {
     + .navbar-toggler {
-      .navbar-toggler-icon {
+      .navbar-toggler-hamburger {
         background-color: $dark;
 
         &::before {
-          margin-top: 0;
-          transform: rotate(405deg);
+          transform: rotate(45deg) translate(3px, -6px);
         }
 
         &::after {
-          margin-top: 0;
-          transform: rotate(-405deg);
+          transform: rotate(-45deg) translate(3px, 6px);
         }
       }
     }
