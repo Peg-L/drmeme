@@ -3,5 +3,11 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      text: '精選文章',
+    };
+  },
+};
 </script>

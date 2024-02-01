@@ -1,0 +1,14 @@
+.btn-dark {
+  border-radius: 4px;
+  background: linear-gradient(276deg, #000 13.88%, rgba(0, 0, 0, 0.7) 93.75%);
+  color: $light;
+  font-weight: 700;
+}
+
+.button-hover {
+  transition: background 0.5s ease-in-out;
+  &:hover {
+    background: $primary-500 !important;
+    color: $light;
+  }
+}
