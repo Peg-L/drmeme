@@ -1,6 +1,6 @@
 <template>
   <!-- navbar -->
-  <nav class="navbar navbar-expand-lg bg-dark">
+  <nav class="navbar navbar-expand-lg bg-dark fixed-top">
     <div class="container d-flex justify-content-between align-items-center">
       <h1>
         <router-link to="/" class="navbar-brand d-block">Dr. Meme</router-link>
@@ -25,7 +25,7 @@
           <li class="nav-item">
             <router-link
               to="/articles"
-              class="nav-link fs-5 fw-bold"
+              class="nav-link fs-5 fw-bold py-3"
               aria-current="page"
               >精選文章</router-link
             >
@@ -33,7 +33,7 @@
           <li class="nav-item">
             <router-link
               to="/products"
-              class="nav-link fs-5 fw-bold"
+              class="nav-link fs-5 fw-bold py-3"
               aria-current="page"
               >限量週邊</router-link
             >
@@ -41,25 +41,43 @@
           <li class="nav-item">
             <router-link
               to="/faq"
-              class="nav-link fs-5 fw-bold"
+              class="nav-link fs-5 fw-bold py-3"
               aria-current="page"
               >常見問答</router-link
             >
           </li>
-          <li class="nav-item">
+          <li v-if="isFollowBtnVisible" class="nav-item">
             <a
-              class="btn btn-follow fs-5 fw-bold"
+              class="btn btn-follow fs-5 fw-bold py-3"
               aria-current="page"
               href="https://www.instagram.com/doctormeme_tw/"
               target="_blank"
-              >追蹤IG</a
+              >追蹤 IG</a
             >
           </li>
+          <template v-else>
+            <li class="nav-item">
+              <router-link
+                to="/followlist"
+                class="nav-link fs-5 fw-bold py-3"
+                aria-current="page"
+                ><i class="fa-solid fa-heart"></i
+              ></router-link>
+            </li>
+            <li class="nav-item">
+              <router-link
+                to="/cart"
+                class="nav-link fs-5 fw-bold py-3"
+                aria-current="page"
+                ><i class="fa-solid fa-cart-shopping"></i
+              ></router-link>
+            </li>
+          </template>
         </ul>
       </div>
     </div>
   </nav>
-  <router-view></router-view>
+  <div class="mt-14 mt-lg-17"><router-view></router-view></div>
   <footer class="footer bg-dark py-14">
     <div
       class="container d-flex flex-column flex-md-row justify-content-between align-items-center"
@@ -154,11 +172,34 @@
       </p>
     </div>
   </footer>
+
+  <!-- backToTop 按鈕 -->
+  <button
+    type="button"
+    class="rounded-circle border-0 bg-primary-500 bg-gradient text-light button-backtotop"
+    style="width: 50px; height: 50px"
+  >
+    <i class="fa-solid fa-arrow-up fa-xl"></i>
+  </button>
 </template>
 
 <script>
 export default {
+  data() {
+    return {};
+  },
   components: {},
+  methods: {},
+  computed: {
+    isFollowBtnVisible() {
+      return !(
+        this.$route.path === '/products' ||
+        this.$route.path === '/cart' ||
+        this.$route.path === '/followlist'
+      );
+    },
+  },
+  mounted() {},
 };
 </script>
 
@@ -247,10 +288,10 @@ h1 {
 .navbar-nav {
   display: flex;
   gap: 0;
-  row-gap: 40px;
+  row-gap: 10px;
   @include media-breakpoint-up(lg) {
     gap: 0;
-    column-gap: 56px;
+    column-gap: 36px;
   }
 }
 
@@ -264,14 +305,26 @@ a.btn-follow {
   display: block;
   padding: 12px 56px;
   border: 1px solid $light;
+  background-color: transparent;
+  background-image: url('../assets/images/background/button-bg.png');
+  background-repeat: repeat-x;
+  background-position: 0 -100%;
+  transition: 1.3s ease;
 
   &:hover {
-    border: 1px solid $primary-500;
-    color: $primary-500;
+    color: $light;
+    background-position: center;
   }
 }
 
 .hover-primary-500:hover {
   color: $primary-500 !important;
+}
+
+.button-backtotop {
+  position: fixed;
+  box-shadow: 0px 3px 5px rgba($secondary-500, 0.8);
+  bottom: 14px;
+  right: 14px;
 }
 </style>

@@ -5,9 +5,14 @@
 @import 'bootstrap/scss/functions';
 @import './base/variables';
 @import '../../../node_modules/bootstrap/scss/maps';
+
 @import './util/utilities';
-@import 'bootstrap/scss/bootstrap';
 @import './util/font';
+@import './util/border';
+@import 'bootstrap/scss/bootstrap';
 @import './base/reboot';
+
+// 元件
+@import './components/buttons';
 
 @import './dashboard/dashboard.scss';

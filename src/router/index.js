@@ -15,15 +15,23 @@ const routes = [
       },
       {
         path: 'products',
-        component: () => import('../views/front/ProductsView.vue'),
+        component: () => import('../views/front/ProductsListView.vue'),
       },
       {
         path: 'product/:id',
         component: () => import('../views/front/ProductView.vue'),
       },
       {
+        path: 'followlist',
+        component: () => import('../views/front/FollowlistView.vue'),
+      },
+      {
         path: 'cart',
         component: () => import('../views/front/CartView.vue'),
+      },
+      {
+        path: 'contact',
+        component: () => import('../views/front/ContactView.vue'),
       },
       {
         path: 'faq',

@@ -1,0 +1,62 @@
+@mixin border-dashed($color, $radius: 0) {
+  background-image: repeating-linear-gradient(
+      0deg,
+      $color,
+      $color 14px,
+      transparent 14px,
+      transparent 26px,
+      $color 26px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      $color,
+      $color 14px,
+      transparent 14px,
+      transparent 26px,
+      $color 26px
+    ),
+    repeating-linear-gradient(
+      180deg,
+      $color,
+      $color 14px,
+      transparent 14px,
+      transparent 26px,
+      $color 26px
+    ),
+    repeating-linear-gradient(
+      270deg,
+      $color,
+      $color 14px,
+      transparent 14px,
+      transparent 26px,
+      $color 26px
+    );
+  background-size: 4px 100%, 100% 4px, 4px 100%, 100% 4px;
+  background-position: 0 0, 0 0, 100% 0, 0 100%;
+  background-repeat: no-repeat;
+  border-radius: $radius !important;
+}
+
+.border-dashed {
+  &.border-dashed-primary-500 {
+    @include border-dashed($primary-500);
+  }
+
+  &.border-dashed-secondary-500 {
+    @include border-dashed($secondary-500);
+  }
+
+  &.border-dashed-secondary-700 {
+    @include border-dashed($secondary-700);
+  }
+}
+
+.hover-dashed {
+  transition: all 0.3s ease-out;
+  padding: 12px;
+
+  &:hover {
+    @include border-dashed($secondary-500);
+    border: none;
+  }
+}

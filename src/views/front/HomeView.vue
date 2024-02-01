@@ -1,6 +1,6 @@
 <template>
   <!-- banner 區塊 -->
-  <div class="bg-secondary-100 overflow-hidden">
+  <div class="bg-secondary-100 overflow-hidden position-relative">
     <div class="container pt-88 pb-4 pt-md-30 pb-md-20">
       <div class="row">
         <!-- banner 內容區塊 -->
@@ -663,22 +663,6 @@ h1 {
   width: 105%;
 }
 
-// banner CTA 按鈕
-.btn-dark {
-  border-radius: 4px;
-  background: linear-gradient(276deg, #000 13.88%, rgba(0, 0, 0, 0.7) 93.75%);
-  color: $light;
-  font-weight: 700;
-}
-
-.button-hover {
-  transition: background 0.5s ease-in-out;
-  &:hover {
-    background: $primary-500 !important;
-    color: $light;
-  }
-}
-
 // banner 右側主圖
 .banner-img {
   z-index: 100;
@@ -986,58 +970,6 @@ h1 {
   .waves {
     height: 40px;
     min-height: 40px;
-  }
-}
-
-@mixin border-dashed($color) {
-  background-image: repeating-linear-gradient(
-      0deg,
-      $color,
-      $color 14px,
-      transparent 14px,
-      transparent 26px,
-      $color 26px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      $color,
-      $color 14px,
-      transparent 14px,
-      transparent 26px,
-      $color 26px
-    ),
-    repeating-linear-gradient(
-      180deg,
-      $color,
-      $color 14px,
-      transparent 14px,
-      transparent 26px,
-      $color 26px
-    ),
-    repeating-linear-gradient(
-      270deg,
-      $color,
-      $color 14px,
-      transparent 14px,
-      transparent 26px,
-      $color 26px
-    );
-  background-size: 4px 100%, 100% 4px, 4px 100%, 100% 4px;
-  background-position: 0 0, 0 0, 100% 0, 0 100%;
-  background-repeat: no-repeat;
-}
-
-.border-dashed {
-  &.border-dashed-primary-500 {
-    @include border-dashed($primary-500);
-  }
-
-  &.border-dashed-secondary-500 {
-    @include border-dashed($secondary-500);
-  }
-
-  &.border-dashed-secondary-700 {
-    @include border-dashed($secondary-700);
   }
 }
 </style>

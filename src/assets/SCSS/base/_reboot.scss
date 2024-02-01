@@ -148,7 +148,8 @@ address {
 
 ol,
 ul {
-  padding-left: 2rem;
+  padding-left: 0px; //2rem;
+  list-style: none;
 }
 
 ol,
