@@ -27,7 +27,19 @@ const routes = [
       },
       {
         path: 'cart',
-        component: () => import('../views/front/CartView.vue'),
+        component: () => import('../views/front/checkout/CartView.vue'),
+      },
+      {
+        path: 'order',
+        component: () => import('../views/front/checkout/OrderView.vue'),
+      },
+      {
+        path: 'payment/:orderId',
+        component: () => import('../views/front/checkout/PaymentView.vue'),
+      },
+      {
+        path: 'checkout/:orderId',
+        component: () => import('../views/front/checkout/CheckoutView.vue'),
       },
       {
         path: 'contact',

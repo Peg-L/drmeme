@@ -61,7 +61,7 @@ export default {
   methods: {
     login() {
       // API
-      const api = `${VITE_APP_URL}/v2/admin/signin`;
+      const api = `${VITE_APP_URL}/admin/signin`;
       // 發送 API 至遠端並登入 (並儲存 Token)
       this.$http
         .post(api, this.user)

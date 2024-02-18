@@ -41,7 +41,7 @@ export default {
       );
       axios.defaults.headers.common.Authorization = token;
 
-      const url = `${VITE_APP_URL}/v2/api/user/check`;
+      const url = `${VITE_APP_URL}/api/user/check`;
       axios
         .post(url)
         .then((res) => {
