@@ -66,87 +66,30 @@
         to="/products"
         class="btn btn-primary-500 text-light mt-3 fs-5"
         aria-current="page"
-        >前往選購</router-link
+        >查看商品</router-link
       >
     </div>
   </div>
 </template>
 <script>
-const { VITE_APP_URL, VITE_APP_PATH } = import.meta.env;
+import { useCartStore } from '@/stores/cartStore';
+import { useProductsStore } from '@/stores/productsStore';
+import { mapActions, mapState } from 'pinia';
+
 export default {
   data() {
-    return {
-      products: [],
-      selectedCategory: '',
-      followList: [],
-    };
+    return {};
+  },
+  computed: {
+    ...mapState(useProductsStore, ['followList', 'products']),
   },
   methods: {
-    showToast(str) {
-      this.$swal
-        .mixin({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 1000,
-          width: 280,
-          timerProgressBar: false,
-          customClass: {
-            popup: 'cart-toast-modal',
-          },
-        })
-        .fire({
-          icon: 'success',
-          title: str,
-        });
-    },
-    getProducts() {
-      // 參數預設值
-      this.$http
-        .get(`${VITE_APP_URL}/api/${VITE_APP_PATH}/products/all`)
-        .then((res) => {
-          this.products = res.data.products;
-          console.log('products', this.products);
-        })
-        .catch((err) => {
-          console.log(err.response.data.message, 'error');
-        });
-    },
-    // 取得收藏列表
-    getFollowList() {
-      this.followList = JSON.parse(localStorage.getItem('followList')) || [];
-      console.log('followList', this.followList);
-    },
-    toggleFollowProduct(id) {
-      if (this.followList.includes(id)) {
-        const followIndex = this.followList.indexOf(id);
-        this.followList.splice(followIndex, 1);
-      } else {
-        this.followList.push(id);
-      }
-
-      localStorage.setItem('followList', JSON.stringify(this.followList));
-    },
-    addToCart(product_id) {
-      const url = `${VITE_APP_URL}/api/${VITE_APP_PATH}/cart`;
-      const data = {
-        data: {
-          product_id,
-          qty: 1,
-        },
-      };
-
-      this.$http
-        .post(url, data)
-        .then((res) => {
-          // console.log(res.data.message);
-          this.showToast('成功加入購物車!');
-          // this.getCart();
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    },
+    ...mapActions(useProductsStore, [
+      'getFollowList',
+      'getProducts',
+      'toggleFollowProduct',
+    ]),
+    ...mapActions(useCartStore, ['addToCart']),
   },
   mounted() {
     this.getProducts();
@@ -159,12 +102,5 @@ export default {
   width: 100%;
   height: 300px;
   object-fit: cover;
-}
-
-.product-list-banner-img {
-  height: 150px;
-  @media (min-width: 768px) {
-    height: 250px;
-  }
 }
 </style>

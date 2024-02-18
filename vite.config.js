@@ -3,7 +3,6 @@ import vue from '@vitejs/plugin-vue';
 import eslintPlugin from 'vite-plugin-eslint';
 import { fileURLToPath, URL } from 'node:url';
 import liveReload from 'vite-plugin-live-reload';
-import { type } from 'node:os';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -21,15 +20,21 @@ export default defineConfig({
       include: ['src/**/*.js', 'src/**/*.vue', 'src/*.js', 'src/*.vue'],
     }),
     liveReload([
-      '.src/*.vue',
-      '.src/views/*.vue',
-      '.src/views/admin/*.vue',
-      '.src/views/front/*.vue',
+      'src/*.vue',
+      'src/views/*.vue',
+      'src/views/admin/*.vue',
+      'src/views/front/*.vue',
     ]),
   ],
+
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
+      vue: 'vue/dist/vue.esm-bundler.js',
     },
+  },
+
+  define: {
+    __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: true,
   },
 });
