@@ -6,6 +6,7 @@ import liveReload from 'vite-plugin-live-reload';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: '/drmeme/',
   plugins: [
     vue({
       template: {

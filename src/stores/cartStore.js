@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import debounce from 'lodash/debounce';
+
 const { VITE_APP_URL, VITE_APP_PATH } = import.meta.env;
 
 export const useCartStore = defineStore('cartStore', {
@@ -8,43 +10,52 @@ export const useCartStore = defineStore('cartStore', {
     carts: [],
     total: 0,
     final_total: 0,
+    temp_code: '',
     coupon_code: '',
+    coupon_title: '',
+    coupon_success: null,
+    coupon_error: null,
   }),
   actions: {
     // 取得購物車資料
     getCarts() {
       const url = `${VITE_APP_URL}/api/${VITE_APP_PATH}/cart`;
       axios.get(url).then((res) => {
+        this.coupon_success = false;
         this.carts = res.data.data.carts;
         this.total = res.data.data.total;
         this.final_total = res.data.data.final_total;
+
+        if (this.carts[0].coupon) {
+          this.coupon_success = true;
+          this.coupon_code = this.carts[0].coupon.code;
+          this.coupon_title = this.carts[0].coupon.title;
+        }
       });
     },
 
     // 購物車更新商品數量
-    updateCartItemQty(product_id, operator) {
-      const origin_qty = this.carts.filter((item) => item.id === product_id)[0]
-        .qty;
-      let new_qty;
+    updateCartItemQty(item, operator) {
+      // 加減數量
+      operator === 'plus' ? item.qty++ : (item.qty = Math.max(item.qty - 1, 1));
 
-      if (operator === 'plus') {
-        new_qty = origin_qty + 1;
-      } else if (operator === 'minus') {
-        new_qty = Math.max(origin_qty - 1, 1);
-      }
+      this.debouncedUpdateCartItemQty(item);
+    },
 
-      const url = `${VITE_APP_URL}/api/${VITE_APP_PATH}/cart/${product_id}`;
+    debouncedUpdateCartItemQty: debounce(function (item) {
+      const url = `${VITE_APP_URL}/api/${VITE_APP_PATH}/cart/${item.id}`;
       const data = {
         data: {
-          product_id: '-L9tH8jxVb2Ka_DYPwng',
-          qty: new_qty,
+          product_id: item.id,
+          qty: item.qty,
         },
       };
 
       axios.put(url, data).then((res) => {
+        console.log(res);
         this.getCarts();
       });
-    },
+    }, 300),
 
     // 刪除單一品項
     deleteCartItem(item) {
@@ -93,10 +104,11 @@ export const useCartStore = defineStore('cartStore', {
                 alert(err.response.data.message);
               });
 
-            swalWithBootstrapButtons.fire({
+            Swal.fire({
               title: '成功清空購物車!',
               text: '繼續尋找您喜歡的商品吧',
               icon: 'success',
+              confirmButtonColor: '#e08700',
             });
           }
         });
@@ -143,26 +155,33 @@ export const useCartStore = defineStore('cartStore', {
 
     // 使用優惠券
     useCoupon() {
-      if (this.coupon_code) {
+      if (this.temp_code) {
         const url = `${VITE_APP_URL}/api/${VITE_APP_PATH}/coupon`;
         const data = {
           data: {
-            code: this.coupon_code,
+            code: this.temp_code,
           },
         };
         axios
           .post(url, data)
           .then((res) => {
+            console.log(typeof this.temp_code);
+
+            this.coupon_success = true;
+            this.coupon_error = false;
+
             console.log('useCoupon', res.data.message);
+            this.temp_code = '';
             this.showToast('成功套用優惠券!');
             this.getCarts();
           })
           .catch((err) => {
-            console.error(err);
+            this.coupon_success = false;
+            this.coupon_error = true;
+            console.log(err);
+            this.temp_code = '';
           });
       }
-
-      this.coupon_code = '';
     },
   },
 });

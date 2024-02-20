@@ -1,20 +1,32 @@
 <template>
-  <div class="container py-10">
-    <div v-if="carts.length == 0">
-      <p class="fs-5">您還沒購買任何商品</p>
-      <router-link
-        to="/products"
-        class="btn btn-primary-500 text-light mt-3 fs-5 fw-bold"
-        aria-current="page"
-        >前往購買</router-link
-      >
-      <!-- TODO: 補推薦購買 swiper -->
+  <div
+    class="container"
+    :class="carts.length == 0 ? 'py-15 py-md-30' : 'py-6 py-md-10'"
+  >
+    <div
+      v-if="carts.length == 0"
+      class="d-flex flex-column flex-md-row justify-content-md-center align-items-center gap-md-14"
+    >
+      <img
+        src="@/assets/images/cart/empty-cart-meme.png"
+        alt="empty cart"
+        style="width: 300px"
+      />
+      <div class="d-flex flex-column align-items-md-start">
+        <p class="fs-5 mt-6 fw-bold">您的購物車中沒有商品</p>
+        <router-link
+          to="/products"
+          class="btn btn-primary-500 text-light mt-2 fs-6 fw-bold"
+          aria-current="page"
+          >前往購物</router-link
+        >
+      </div>
     </div>
     <div v-else class="row justify-content-center">
       <ProgressbarComponent :currentStatus="1" />
       <div class="col-12 col-md-10">
         <CartlistComponent />
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between my-10">
           <div>
             <p class="fs-6 fw-bold">優惠券</p>
             <div class="input-group my-2">
@@ -24,19 +36,27 @@
                 placeholder="請輸入優惠碼"
                 aria-label="Recipient's username"
                 aria-describedby="button-addon2"
-                v-model="coupon_code"
+                v-model="temp_code"
+                @keyup.enter="useCoupon"
               />
               <button
                 class="btn btn-primary-500 text-light"
                 type="button"
                 id="button-addon2"
-                @click="useCoupon()"
+                @click="useCoupon"
               >
                 使用
               </button>
             </div>
+            <p class="fs-7 ms-2 mt-2" v-if="coupon_success">
+              已套用優惠券: {{ coupon_title + coupon_code }}
+            </p>
+            <p class="fs-7 ms-2 text-danger" v-else-if="coupon_error">
+              無此優惠碼，請重新輸入
+            </p>
+            <p v-else></p>
           </div>
-          <table class="table table-borderless w-auto">
+          <table class="table table-borderless w-auto mb-0">
             <tbody v-if="carts">
               <tr>
                 <th class="px-5" scope="row">共 3 件商品</th>
@@ -154,7 +174,6 @@
 import ProgressbarComponent from '@/components/Cart/ProgressbarComponent.vue';
 import CartlistComponent from '@/components/Cart/CartlistComponent.vue';
 import { mapActions, mapState, mapWritableState } from 'pinia';
-import { useProductsStore } from '@/stores/productsStore';
 import { useCartStore } from '@/stores/cartStore';
 
 export default {
@@ -166,7 +185,7 @@ export default {
     return {
       tempProduct: {},
       productId: '',
-      loadingItem: '', // 存 id
+      loadingItem: '',
       form: {
         user: {
           name: '',
@@ -180,15 +199,16 @@ export default {
   },
   computed: {
     ...mapState(useCartStore, ['carts', 'total', 'final_total']),
-    ...mapWritableState(useCartStore, ['coupon_code']),
+    ...mapWritableState(useCartStore, [
+      'temp_code',
+      'coupon_code',
+      'coupon_title',
+      'coupon_success',
+      'coupon_error',
+    ]),
   },
   methods: {
     ...mapActions(useCartStore, ['getCarts', 'useCoupon']),
-
-    isPhone(value) {
-      const phoneNumber = /^(09)[0-9]{8}$/;
-      return phoneNumber.test(value) ? true : '需要正確的電話號碼';
-    },
   },
   mounted() {
     this.getCarts();

@@ -13,7 +13,7 @@
             type="button"
             @click="deleteAllCarts()"
           >
-            清空購物車
+            全部刪除
           </button>
         </th>
       </tr>
@@ -35,7 +35,7 @@
               <button
                 type="button"
                 class="btn btn-sm"
-                @click="updateCartItemQty(item.id, 'minus')"
+                @click="updateCartItemQty(item, 'minus')"
               >
                 <i class="fa-solid fa-minus"></i>
               </button>
@@ -43,7 +43,7 @@
               <button
                 type="button"
                 class="btn btn-sm"
-                @click="updateCartItemQty(item.id, 'plus')"
+                @click="updateCartItemQty(item, 'plus')"
               >
                 <i class="fa-solid fa-plus"></i>
               </button>

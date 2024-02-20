@@ -1,7 +1,10 @@
 <template>
-  <div class="container py-10 py-md-20">
-    <h1 class="fw-bold">收藏清單</h1>
+  <div
+    class="container"
+    :class="followList.length == 0 ? 'py-15 py-md-30' : 'py-6 py-md-10'"
+  >
     <div class="row" v-if="followList.length > 0">
+      <h1 class="fw-bold">收藏清單</h1>
       <div class="col-md-12">
         <div
           class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 gy-6 mt-3"
@@ -60,14 +63,24 @@
         </div>
       </div>
     </div>
-    <div v-else class="mt-3">
-      <p class="fs-5">目前沒有收藏的商品</p>
-      <router-link
-        to="/products"
-        class="btn btn-primary-500 text-light mt-3 fs-5"
-        aria-current="page"
-        >查看商品</router-link
-      >
+    <div
+      v-else
+      class="d-flex flex-column flex-md-row justify-content-md-center align-items-center gap-md-14"
+    >
+      <img
+        src="../../assets/images/cart/empty-followList-meme.jpg"
+        alt="empty followList"
+        style="width: 300px"
+      />
+      <div class="d-flex flex-column align-items-md-start">
+        <p class="fs-5 fw-bold mt-6">您目前沒有收藏任何商品</p>
+        <router-link
+          to="/products"
+          class="btn btn-primary-500 text-light mt-2 fs-6 fw-bold"
+          aria-current="page"
+          >查看商品</router-link
+        >
+      </div>
     </div>
   </div>
 </template>
