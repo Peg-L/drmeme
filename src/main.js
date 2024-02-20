@@ -14,6 +14,11 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 
 const app = createApp(App);
 const pinia = createPinia();
+
+router.afterEach((to, from, next) => {
+  window.scrollTo(0, 0);
+});
+
 app.use(VueAxios, axios);
 app.use(router);
 app.use(VueSweetalert2);

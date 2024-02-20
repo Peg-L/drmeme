@@ -17,9 +17,6 @@ git checkout -B main
 git add -A
 git commit -m 'deploy'
 
-# 如果你要部署在 https://Peg-L.github.io
-# git push -f git@github.com:Peg-L/Peg-L.github.io.git master
-
 # 如果你要部署在 https://Peg-L.github.io/vite-deploy-week6
 git push -f git@github.com:Peg-L/drmeme.git main:gh-pages
 

@@ -3,10 +3,14 @@
     <div class="row justify-content-center py-10">
       <ProgressbarComponent :currentStatus="2" />
       <div class="col-md-10">
-        <div class="row justify-content-center">
-          <div class="col-lg-5 p-6 d-flex flex-column justify-content-between">
+        <div class="row justify-content-center align-items-start">
+          <div
+            class="col-lg-5 p-6 pb-2 d-flex flex-column justify-content-start"
+          >
             <h2 class="fs-5 fw-bold mb-2">訂單明細</h2>
-            <div class="overflow-auto" style="max-height: 400px">
+
+            <!-- 暫存 class="overflow-auto mt-4" style="max-height: 450px" -->
+            <div class="mt-4">
               <table class="table fs-7">
                 <tbody>
                   <template v-if="carts">
@@ -33,7 +37,7 @@
                 </tbody>
               </table>
             </div>
-            <div class="d-flex justify-content-between mt-2">
+            <div class="d-flex justify-content-between mt-6">
               <div class="px-5 fs-6 fw-bold">總計</div>
               <div class="px-2 fs-6 fw-bold">
                 NT$ {{ Math.round(final_total) }}
