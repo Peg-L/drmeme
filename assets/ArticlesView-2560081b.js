@@ -1,0 +1,1 @@
+import{_ as e,c as t,o as r}from"./index-5829d5c8.js";const s={data(){return{text:"精選文章"}}};function c(o,a,n,i,p,_){return r(),t("h1",null,"This is Articles page.")}const f=e(s,[["render",c]]);export{f as default};
