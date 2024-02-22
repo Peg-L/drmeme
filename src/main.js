@@ -23,4 +23,5 @@ app.use(VueAxios, axios);
 app.use(router);
 app.use(VueSweetalert2);
 app.use(pinia);
+
 app.mount('#app');

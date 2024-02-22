@@ -1,23 +1,12 @@
 <template>
-  <div class="bg-secondary-100">
-    <div class="container">
-      <div
-        class="d-flex flex-column flex-md-row justify-content-md-center align-items-center py-4 py-md-8"
-      >
-        <div>
-          <h1 class="display-5 fw-bold text-center text-md-start">限量週邊</h1>
-          <p class="fs-3 ff-sans-en fw-light text-uppercase">
-            Limited Edition Merch
-          </p>
-        </div>
-        <img
-          class="darken ms-md-20 product-list-banner-img"
-          src="../../assets/images/banner/products-list-banner-3.png"
-          alt="Anya wants this"
-        />
-      </div>
-    </div>
-  </div>
+  <!-- 限量週邊 banner -->
+  <BannerComponent
+    :title="'限量周邊'"
+    :subtitle="'Limited Edition Merch'"
+    :image-name="imageName"
+    :image-alt="'Anya wants this'"
+  />
+
   <div class="container py-10 py-md-20" id="products-block">
     <div class="row">
       <!-- 產品分類切換 -->
@@ -31,21 +20,21 @@
 <script type="module">
 import ProductsCategoryComponent from '@/components/Products/ProductsCategoryComponent.vue';
 import ProductslistComponent from '@/components/Products/ProductslistComponent.vue';
+import BannerComponent from '@/components/BannerComponent.vue';
 
 export default {
   components: {
     ProductslistComponent,
     ProductsCategoryComponent,
+    BannerComponent,
+  },
+  data() {
+    return {
+      imageName: 'products-list-banner-3.png',
+    };
   },
   methods: {},
 };
 </script>
 
-<style lang="scss">
-.product-list-banner-img {
-  height: 150px;
-  @media (min-width: 768px) {
-    height: 250px;
-  }
-}
-</style>
+<style lang="scss"></style>

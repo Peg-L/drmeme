@@ -1,6 +1,184 @@
 <template>
-  <h1>FAQ 頁面</h1>
+  <!-- FAQ banner -->
+  <BannerComponent
+    title="常見問答"
+    subtitle="FAQ"
+    image-name="banner-faq.jpg"
+    image-alt="常見問答"
+  />
+  <!-- faq -->
+  <div class="container">
+    <div class="row justify-content-center my-15">
+      <div class="col-md-8">
+        <div class="accordion" id="accordionFaq">
+          <div class="accordion-item rounded-5">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button rounded-5"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseOne"
+                aria-expanded="true"
+                aria-controls="collapseOne"
+              >
+                請問 Dr.Meme 為什麼想當醫生?
+              </button>
+            </h2>
+            <div
+              id="collapseOne"
+              class="accordion-collapse collapse show"
+              data-bs-parent="#accordionFaq"
+            >
+              <div class="accordion-body">
+                <p>這題也是被問到爛掉的前三名之一。</p>
+                <p>
+                  因為我想當團隊領導者、能幫助人的、可以動手的、社經地位還不錯的、可以常跟人接觸的、有使命感的職業。
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item rounded-5">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed rounded-5"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseTwo"
+                aria-expanded="false"
+                aria-controls="collapseTwo"
+              >
+                感覺 Dr.Meme <del class="mx-1">很閒</del> 時間很多?
+              </button>
+            </h2>
+            <div
+              id="collapseTwo"
+              class="accordion-collapse collapse"
+              data-bs-parent="#accordionFaq"
+            >
+              <div class="accordion-body">
+                <p class="mb-4 fw-bold">其實我並不閒。</p>
+                <p>
+                  你們沒看到的是我常常 2 點睡 6
+                  點多起床，沒看到我都是邊大便邊發文回訊息，沒看到我吃三餐的時候，也會一邊打病歷。出去時一邊開車一邊想演講内容、潛水技巧。跟刀的時候，除了拉勾缝合也問疾病相關的知識。甚至連洗澡刷牙的時候都在安排遊戲練功的計畫。你們只看得到表面，覺得我很閒，甚至還有人會試圖拿我上班的醫院來說嘴。
+                </p>
+                <p class="mt-4 fw-bold">
+                  「你必須費盡努力，才能看起來毫不費力」
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item rounded-5">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed rounded-5"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseThree"
+                aria-expanded="false"
+                aria-controls="collapseThree"
+              >
+                Dr.Meme 你說的這個 XXX 是錯的吧?
+              </button>
+            </h2>
+            <div
+              id="collapseThree"
+              class="accordion-collapse collapse"
+              data-bs-parent="#accordionFaq"
+            >
+              <div class="accordion-body">
+                <p>
+                  我要特別申明一點，這個帳號是迷音帳號，不是醫學帳號。雖然偶爾會科普一些醫學知識，那種文如果有說錯，我一定訂正，但是大部分内容都是以搞笑為出發點。
+                </p>
+                <div class="my-4">拜託拜託! 認真就輸了好嗎?</div>
+                <p>
+                  以後我再看到認真魔人的留言應該會直接封鎖，免得引戰。把你們做學問的精神用在學校、實驗室、工作上都很好，在迷因版上戰學問，我不知道意義在哪?
+                  除了展現你的人生很無聊以外吧🤷🏻‍♂️
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item rounded-5">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed rounded-5"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseFour"
+                aria-expanded="false"
+                aria-controls="collapseFour"
+              >
+                請問每次的 IG 直播可以留影片放在 IGTV 嗎?
+              </button>
+            </h2>
+            <div
+              id="collapseFour"
+              class="accordion-collapse collapse"
+              data-bs-parent="#accordionFaq"
+            >
+              <div class="accordion-body">
+                <p>
+                  謝謝大家喜歡我的直播/podcast，我也會努力繼續做出好內容的。但除非無法上傳音檔，不然目前都<strong>不會</strong>留重播在
+                  igtv 給大家，因為 ppt
+                  我會希望保有版權，這是我的一點點私心，請大家包含🥹🥹
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item rounded-5">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed rounded-5"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseFive"
+                aria-expanded="false"
+                aria-controls="collapseFive"
+              >
+                請問 Dr. Meme 平常都在幹嘛?
+              </button>
+            </h2>
+            <div
+              id="collapseFive"
+              class="accordion-collapse collapse"
+              data-bs-parent="#accordionFaq"
+            >
+              <div class="accordion-body"><p>正在當無業游民環遊世界✈️</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
-export default {};
+import BannerComponent from '@/components/BannerComponent.vue';
+
+export default {
+  components: {
+    BannerComponent,
+  },
+  data() {
+    return {};
+  },
+};
 </script>
+<style lang="scss">
+@import '../../assets/SCSS/all.scss';
+
+.accordion-item {
+  box-shadow: 10px 10px 20px 1px rgba(229, 228, 227, 0.5);
+
+  &:not(:first-child) {
+    margin-top: 30px;
+  }
+}
+
+.accordion-button {
+  font-weight: bold;
+  font-size: 16px;
+
+  @include media-breakpoint-up(md) {
+    font-size: 20px;
+  }
+}
+</style>
