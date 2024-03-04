@@ -46,14 +46,19 @@
           </div>
           <div class="col-lg-5 bg-secondary-100 p-6 rounded-3">
             <h2 class="fs-5 fw-bold mb-2">訂單資訊</h2>
-            <VForm ref="form" class="fs-7" @submit="createOrder">
+            <VForm
+              v-slot="{ errors }"
+              ref="form"
+              class="fs-7"
+              @submit="createOrder"
+            >
               <div class="mb-3">
                 <label for="InputName" class="form-label"
                   >姓名 <span class="required">*</span></label
                 >
                 <VField
                   :rules="validateName"
-                  v-slot="{ field, meta }"
+                  v-slot="{ field }"
                   name="name"
                   id="InputName"
                 >
@@ -68,6 +73,19 @@
                     }"
                   />
                 </VField>
+
+                <v-field
+                  type="text"
+                  class="form-control"
+                  id="productName"
+                  name="商品名稱"
+                  :class="{ 'is-invalid': errors['商品名稱'] }"
+                  rules="required"
+                  aria-describedby="productName"
+                  placeholder="請輸入商品名稱"
+                  v-model="tempProduct.title"
+                ></v-field>
+
                 <ErrorMessage class="error-message" name="userName" />
               </div>
               <div class="mb-3">
@@ -131,7 +149,7 @@
                     type="text"
                     class="form-control"
                     :class="{
-                      'is-valid': meta.valid && meta.touched,
+                      'is-valid': errors,
                       'is-invalid': !meta.valid && meta.touched,
                     }"
                   />
@@ -167,8 +185,6 @@
 import ProgressbarComponent from '@/components/Cart/ProgressbarComponent.vue';
 import { mapActions, mapState, mapWritableState } from 'pinia';
 import { useCartStore } from '@/stores/cartStore';
-import { Form, Field, ErrorMessage, useForm } from 'vee-validate';
-import { RouterLink } from 'vue-router';
 const { VITE_APP_URL, VITE_APP_PATH } = import.meta.env;
 
 export default {
@@ -177,20 +193,17 @@ export default {
       currentStatus: 2,
       form: {
         user: {
-          name: 'Peggy',
-          email: 'stu90233@gmail.com',
-          tel: '0911111111',
-          address: '台南',
+          name: '',
+          email: '',
+          tel: '',
+          address: '',
         },
-        message: '剁手囉',
+        message: '',
       },
     };
   },
   components: {
     ProgressbarComponent,
-    VForm: Form,
-    VField: Field,
-    ErrorMessage,
   },
   computed: {
     ...mapState(useCartStore, ['carts', 'final_total']),
@@ -263,9 +276,6 @@ export default {
     },
   },
   mounted() {
-    const { meta } = useForm();
-    console.log(meta);
-
     this.getCarts();
   },
 };
