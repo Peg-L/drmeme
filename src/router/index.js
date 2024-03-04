@@ -60,12 +60,20 @@ const routes = [
     component: () => import('../views/DashboardView.vue'),
     children: [
       {
+        path: 'home',
+        component: () => import('../views/admin/AdminHome.vue'),
+      },
+      {
         path: 'products',
         component: () => import('../views/admin/AdminProducts.vue'),
       },
       {
         path: 'orders',
         component: () => import('../views/admin/AdminOrders.vue'),
+      },
+      {
+        path: 'articles',
+        component: () => import('../views/admin/AdminArticles.vue'),
       },
     ],
   },

@@ -76,7 +76,7 @@ export default {
             expired
           )};`;
 
-          this.$router.push('/admin/products');
+          this.$router.push('/admin/home');
         })
         // 失敗結果
         .catch((err) => {

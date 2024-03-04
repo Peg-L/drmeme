@@ -1,15 +1,52 @@
 <template>
-  <div class="wrapper d-flex">
+  <div class="wrapper d-flex p-6">
     <!-- sidebar -->
-    <ul class="navbar-nav bg-primary-500 bg-gradient sidebar">
-      <router-link class="text-light py-6 fs-3" to="/admin/products"
-        >後台產品列表</router-link
+    <ul class="navbar-nav sidebar">
+      <h1 class="fs-5 fw-bold">Dr.Meme Dashboard</h1>
+      <router-link
+        class="text-dark py-5 px-4 fs-6 sidebar-item mt-6"
+        :class="{ active: this.$route.path === '/admin/home' }"
+        to="/admin/home"
       >
-      <router-link class="text-light py-6 fs-3" to="/admin/orders"
-        >後台訂單列表</router-link
+        <span class="me-4 p-2 sidebar-icon"
+          ><i class="fa-solid fa-gauge"></i></span
+        >數據儀錶板
+      </router-link>
+      <router-link
+        class="text-dark py-5 px-4 fs-6 sidebar-item mt-6"
+        to="/admin/products"
       >
-      <router-link class="text-light py-6 fs-3" to="/">回前台首頁</router-link>
-      <a class="text-light py-6 fs-3" href="#" @click.prevent="logout">登出</a>
+        <span class="me-4 p-2 sidebar-icon"
+          ><i class="fa-solid fa-cart-shopping"></i></span
+        >商品管理
+      </router-link>
+      <router-link
+        class="text-dark py-5 px-4 fs-6 sidebar-item mt-6"
+        to="/admin/orders"
+        ><span class="me-4 p-2 sidebar-icon"
+          ><i class="fa-solid fa-list"></i></span
+        >訂單管理</router-link
+      >
+      <router-link
+        class="text-dark py-5 px-4 fs-6 sidebar-item mt-6"
+        to="/admin/articles"
+        ><span class="me-4 p-2 sidebar-icon"
+          ><i class="fa-solid fa-pen-to-square"></i></span
+        >文章管理</router-link
+      >
+      <router-link class="text-dark py-5 px-4 fs-6 sidebar-item mt-6" to="/"
+        ><span class="me-4 p-2 sidebar-icon"
+          ><i class="fa-solid fa-house"></i></span
+        >回前台</router-link
+      >
+      <a
+        class="text-dark py-5 px-4 fs-6 sidebar-item mt-6"
+        href="#"
+        @click.prevent="logout"
+        ><span class="me-4 p-2 sidebar-icon"
+          ><i class="fa-solid fa-right-from-bracket"></i></span
+        >登出</a
+      >
     </ul>
     <!-- end of sidebar -->
 
@@ -59,3 +96,37 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+@import '../assets/SCSS/all.scss';
+
+.sidebar {
+  width: 350px;
+}
+
+.sidebar-item {
+  border-radius: 8px;
+
+  &.active {
+    box-shadow: 0 20px 27px rgba(0, 0, 0, 0.05);
+
+    span {
+      background-color: $primary-500;
+
+      i {
+        color: $light;
+      }
+    }
+  }
+
+  &:hover {
+    .sidebar-icon {
+      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12);
+    }
+  }
+}
+
+.sidebar-icon {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
+  border-radius: 10px;
+}
+</style>
