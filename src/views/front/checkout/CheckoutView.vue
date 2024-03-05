@@ -59,16 +59,20 @@
                     <td>{{ order.user.email }}</td>
                   </tr>
                   <tr>
-                    <th>姓名</th>
+                    <th>訂購人姓名</th>
                     <td>{{ order.user.name }}</td>
                   </tr>
                   <tr>
-                    <th>收件人電話</th>
+                    <th>訂購人電話</th>
                     <td>{{ order.user.tel }}</td>
                   </tr>
                   <tr>
-                    <th>收件人地址</th>
+                    <th>訂購人地址</th>
                     <td>{{ order.user.address }}</td>
+                  </tr>
+                  <tr>
+                    <th>訂單備註</th>
+                    <td>{{ order.message }}</td>
                   </tr>
                   <tr>
                     <th>付款狀態</th>

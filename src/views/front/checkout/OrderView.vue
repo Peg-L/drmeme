@@ -8,8 +8,6 @@
             class="col-lg-5 p-6 pb-2 d-flex flex-column justify-content-start"
           >
             <h2 class="fs-5 fw-bold mb-2">訂單明細</h2>
-
-            <!-- 暫存 class="overflow-auto mt-4" style="max-height: 450px" -->
             <div class="mt-4">
               <table class="table fs-7">
                 <tbody>
@@ -29,9 +27,7 @@
                       <td class="col-6">
                         {{ item.product.title }} x{{ item.qty }}
                       </td>
-                      <td class="col-3 text-end">
-                        NT$ {{ item.product.price }}
-                      </td>
+                      <td class="col-3 text-end">NT$ {{ item.total }}</td>
                     </tr>
                   </template>
                 </tbody>
@@ -50,45 +46,85 @@
               v-slot="{ errors }"
               ref="form"
               class="fs-7"
-              @submit="createOrder"
+              @submit="onSubmit"
             >
               <div class="mb-3">
-                <label for="InputName" class="form-label"
+                <label for="inputName" class="form-label"
                   >姓名 <span class="required">*</span></label
                 >
                 <VField
-                  :rules="validateName"
-                  v-slot="{ field }"
-                  name="name"
-                  id="InputName"
-                >
-                  <input
-                    v-bind="field"
-                    v-model="form.user.name"
-                    type="text"
-                    class="form-control"
-                    :class="{
-                      'is-valid': meta.valid && meta.touched,
-                      'is-invalid': !meta.valid && meta.touched,
-                    }"
-                  />
-                </VField>
-
-                <v-field
-                  type="text"
-                  class="form-control"
-                  id="productName"
-                  name="商品名稱"
-                  :class="{ 'is-invalid': errors['商品名稱'] }"
                   rules="required"
-                  aria-describedby="productName"
-                  placeholder="請輸入商品名稱"
-                  v-model="tempProduct.title"
-                ></v-field>
-
-                <ErrorMessage class="error-message" name="userName" />
+                  name="姓名"
+                  type="text"
+                  id="inputName"
+                  placeholder="請填寫真實姓名"
+                  class="form-control"
+                  :class="{ 'is-invalid': errors['姓名'] }"
+                  v-model="form.user.name"
+                ></VField>
+                <ErrorMessage name="姓名" class="invalid-feedback" />
               </div>
               <div class="mb-3">
+                <label for="inputTel" class="form-label"
+                  >手機 <span class="required">*</span></label
+                >
+                <VField
+                  :rules="{ regex: /^09\d{8}$/, required: true }"
+                  name="手機"
+                  type="text"
+                  id="inputTel"
+                  placeholder="請填寫手機"
+                  class="form-control"
+                  :class="{ 'is-invalid': errors['手機'] }"
+                  v-model="form.user.tel"
+                ></VField>
+                <ErrorMessage name="手機" class="invalid-feedback" />
+              </div>
+              <div class="mb-3">
+                <label for="inputEmail" class="form-label"
+                  >Email <span class="required">*</span></label
+                >
+                <VField
+                  rules="email|required"
+                  name="Email"
+                  type="email"
+                  id="inputEmail"
+                  placeholder="請填寫 Email"
+                  class="form-control"
+                  :class="{ 'is-invalid': errors['Email'] }"
+                  v-model="form.user.email"
+                ></VField>
+                <ErrorMessage name="Email" class="invalid-feedback" />
+              </div>
+              <div class="mb-3">
+                <label for="inputAddress" class="form-label"
+                  >地址 <span class="required">*</span></label
+                >
+                <VField
+                  rules="required"
+                  name="地址"
+                  type="text"
+                  id="inputAddress"
+                  placeholder="請填寫地址"
+                  class="form-control"
+                  :class="{ 'is-invalid': errors['地址'] }"
+                  v-model="form.user.address"
+                ></VField>
+                <ErrorMessage name="地址" class="invalid-feedback" />
+              </div>
+              <div class="mb-3">
+                <label for="inputMsg" class="form-label">備註</label>
+                <VField
+                  name="備註"
+                  type="text"
+                  id="inputMsg"
+                  placeholder="請填寫備註"
+                  class="form-control"
+                  v-model="form.message"
+                ></VField>
+              </div>
+
+              <!-- <div class="mb-3">
                 <label for="InputTel" class="form-label"
                   >手機 <span class="required">*</span></label
                 >
@@ -166,7 +202,7 @@
                   id="InputMessage"
                   style="height: 150px"
                 />
-              </div>
+              </div> -->
               <button
                 type="submit"
                 class="btn btn-primary-500 text-light fw-bold w-100"
@@ -211,53 +247,7 @@ export default {
   methods: {
     ...mapActions(useCartStore, ['getCarts', 'showToast']),
 
-    validateName(value) {
-      // 如果值為空
-      if (!value) {
-        return '姓名為必填';
-      }
-
-      // 通通過關
-      return true;
-    },
-    validatePhone(value) {
-      // 如果值為空
-      if (!value) {
-        return '手機為必填';
-      }
-      // 確認是否為正確的 手機 格式
-      const phoneRegex = /^09\d{8}$/;
-
-      if (!phoneRegex.test(value)) {
-        return '請填寫正確的手機格式';
-      }
-      // 通通過關
-      return true;
-    },
-    validateEmail(value) {
-      // 如果值為空
-      if (!value) {
-        return 'Email 為必填';
-      }
-      // 確認是否為正確的 email 格式
-      const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
-      if (!regex.test(value)) {
-        return '請填寫正確的 Email 格式';
-      }
-      // 通通過關
-      return true;
-    },
-    validateAddress(value) {
-      // 如果值為空
-      if (!value) {
-        return '地址為必填';
-      }
-
-      // 通通過關
-      return true;
-    },
-
-    createOrder() {
+    onSubmit() {
       const order = this.form;
       console.log(order);
 
