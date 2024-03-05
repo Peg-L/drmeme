@@ -18,18 +18,18 @@ import CKEditor from '@ckeditor/ckeditor5-vue';
 // vee validate
 import { Form, Field, ErrorMessage, defineRule, configure } from 'vee-validate';
 import * as AllRules from '@vee-validate/rules';
-import { localize } from '@vee-validate/i18n';
-import zhTW from '@vee-validate/i18n/dist/locale/zh_TW.json';
+import { localize, setLocale } from '@vee-validate/i18n';
+import zh_TW from '@vee-validate/i18n/dist/locale/zh_TW.json';
+
+const config = configure({
+  generateMessage: localize({
+    zh_TW,
+  }),
+});
+setLocale('zh_TW');
 
 Object.keys(AllRules).forEach((rule) => {
   defineRule(rule, AllRules[rule]);
-});
-
-configure({
-  generateMessage: localize({
-    zhTW,
-    validateOnInput: true,
-  }),
 });
 
 const app = createApp(App);

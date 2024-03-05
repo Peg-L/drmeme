@@ -356,7 +356,8 @@ export default {
   methods: {
     getProducts(page = 1) {
       const url = `${VITE_APP_URL}/api/${VITE_APP_PATH}/admin/products?page=${page}`;
-      // // 取出 Token
+
+      // 取出 Token
       const token = document.cookie.replace(
         /(?:(?:^|.*;\s*)drmemeToken\s*=\s*([^;]*).*$)|^.*$/,
         '$1'
