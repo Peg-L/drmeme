@@ -88,7 +88,7 @@ export default {
         </li>
       </ul>
     </div>
-    <p class="text-secondary-700 fs-sm mt-10 mt-md-1 d-md-none">
+    <p class="text-secondary-700 fs-sm mt-10 mt-md-1 d-md-none text-center">
       Copyright © 2020 Dr.Meme All Rights Reserved.
     </p>
   </div>

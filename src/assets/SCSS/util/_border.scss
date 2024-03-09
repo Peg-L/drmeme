@@ -51,6 +51,22 @@
   }
 }
 
+@media (min-width: 768px) {
+  .border-md-dashed {
+    &.border-md-dashed-primary-500 {
+      @include border-dashed($primary-500);
+    }
+
+    &.border-md-dashed-secondary-500 {
+      @include border-dashed($secondary-500);
+    }
+
+    &.border-md-dashed-secondary-700 {
+      @include border-dashed($secondary-700);
+    }
+  }
+}
+
 .hover-dashed {
   transition: all 0.3s ease-out;
   padding: 12px;
