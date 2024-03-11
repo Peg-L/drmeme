@@ -11,14 +11,18 @@ const routes = [
       },
       {
         path: 'articles',
-        component: () => import('../views/front/ArticlesView.vue'),
+        component: () => import('../views/front/ArticlesListView.vue'),
+      },
+      {
+        path: 'articles/:id',
+        component: () => import('../views/front/ArticleView.vue'),
       },
       {
         path: 'products',
         component: () => import('../views/front/ProductsListView.vue'),
       },
       {
-        path: 'product/:id',
+        path: 'products/:id',
         component: () => import('../views/front/ProductView.vue'),
       },
       {

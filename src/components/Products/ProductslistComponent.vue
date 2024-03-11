@@ -2,9 +2,9 @@
   <div class="col-md-9">
     <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 gy-6">
       <div class="col" v-for="product in products" :key="product.id">
-        <router-link
+        <RouterLink
           class="card h-100 hover-dashed"
-          :to="`/product/${product.id}`"
+          :to="`/products/${product.id}`"
         >
           <div class="position-relative">
             <button
@@ -46,7 +46,7 @@
               ><span class="ms-2">加入購物車</span>
             </button>
           </div>
-        </router-link>
+        </RouterLink>
       </div>
     </div>
     <div class="row" v-if="pagination.total_pages > 1">

@@ -14,11 +14,11 @@
       />
       <div class="d-flex flex-column align-items-md-start">
         <p class="fs-5 mt-6 fw-bold">您的購物車中沒有商品</p>
-        <router-link
+        <RouterLink
           to="/products"
           class="btn btn-primary-500 text-light mt-2 fs-6 fw-bold"
           aria-current="page"
-          >前往購物</router-link
+          >前往購物</RouterLink
         >
       </div>
     </div>

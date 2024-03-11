@@ -11,7 +11,7 @@
         >
           <template v-for="product in products" :key="product.id">
             <div class="col" v-if="followList.includes(product.id)">
-              <router-link
+              <RouterLink
                 class="card h-100 hover-dashed"
                 :to="`/product/${product.id}`"
               >
@@ -57,7 +57,7 @@
                     ><span class="ms-2">加入購物車</span>
                   </button>
                 </div>
-              </router-link>
+              </RouterLink>
             </div>
           </template>
         </div>
@@ -74,11 +74,11 @@
       />
       <div class="d-flex flex-column align-items-md-start">
         <p class="fs-5 fw-bold mt-6">您目前沒有收藏任何商品</p>
-        <router-link
+        <RouterLink
           to="/products"
           class="btn btn-primary-500 text-light mt-2 fs-6 fw-bold"
           aria-current="page"
-          >查看商品</router-link
+          >查看商品</RouterLink
         >
       </div>
     </div>
