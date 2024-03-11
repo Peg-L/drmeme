@@ -125,27 +125,6 @@
               </div>
             </div>
           </div>
-          <div class="accordion-item rounded-5">
-            <h2 class="accordion-header">
-              <button
-                class="accordion-button collapsed rounded-5"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapse5"
-                aria-expanded="false"
-                aria-controls="collapse5"
-              >
-                命醫師平常都在幹嘛?
-              </button>
-            </h2>
-            <div
-              id="collapse5"
-              class="accordion-collapse collapse"
-              data-bs-parent="#accordionFaq"
-            >
-              <div class="accordion-body"><p>正在當無業游民環遊世界✈️</p></div>
-            </div>
-          </div>
           <!-- 6-10 -->
           <div class="accordion-item rounded-5">
             <h2 class="accordion-header">
