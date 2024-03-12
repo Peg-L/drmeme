@@ -26,7 +26,7 @@ export const useCartStore = defineStore('cartStore', {
         this.total = res.data.data.total;
         this.final_total = res.data.data.final_total;
 
-        if (this.carts[0].coupon) {
+        if (this.carts[0] && this.carts[0].coupon !== undefined) {
           this.coupon_success = true;
           this.coupon_code = this.carts[0].coupon.code;
           this.coupon_title = this.carts[0].coupon.title;
@@ -46,7 +46,7 @@ export const useCartStore = defineStore('cartStore', {
       const url = `${VITE_APP_URL}/api/${VITE_APP_PATH}/cart/${item.id}`;
       const data = {
         data: {
-          product_id: item.id,
+          product_id: item.product_id,
           qty: item.qty,
         },
       };
@@ -115,12 +115,12 @@ export const useCartStore = defineStore('cartStore', {
     },
 
     // 加入購物車
-    addToCart(product_id) {
+    addToCart(product_id, qty = 1) {
       const url = `${VITE_APP_URL}/api/${VITE_APP_PATH}/cart`;
       const data = {
         data: {
           product_id,
-          qty: 1,
+          qty,
         },
       };
       axios
