@@ -13,6 +13,7 @@ export const useProductsStore = defineStore('productsStore', {
     pageNum: 1,
     pagination: {},
     followList: [],
+    recommendProducts: [],
   }),
   actions: {
     // 取得商品
@@ -35,7 +36,7 @@ export const useProductsStore = defineStore('productsStore', {
           this.products = res.data.products;
           this.pagination = res.data.pagination;
           this.isLoading = false;
-
+          this.recommendProducts = this.products.slice(0, 3);
           // 跳轉到產品區塊最上方
           // 判斷是否為第一次載入，第一次載入 "不會" 執行 scrollToProductsBlock
           if (!this.isFirstLoad) {
