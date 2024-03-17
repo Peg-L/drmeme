@@ -156,8 +156,8 @@
                     <label
                       for="inputTitle"
                       class="form-label text-nowrap mb-0 fs-6 fw-bold"
-                      >文章標題</label
-                    >
+                      >文章標題 <span class="warning">*</span>
+                    </label>
                     <input
                       type="text"
                       class="form-control mt-1"
@@ -169,7 +169,7 @@
                     <label
                       for="inputAuthor"
                       class="form-label text-nowrap mb-0 fs-6 fw-bold"
-                      >文章作者</label
+                      >文章作者 <span class="warning">*</span></label
                     >
                     <input
                       type="text"
@@ -182,7 +182,7 @@
                     <label
                       for="inputImg"
                       class="form-label text-nowrap mb-0 fs-6 fw-bold mb-1"
-                      >文章內文</label
+                      >文章內文 <span class="warning">*</span></label
                     >
                     <ckeditor
                       :editor="editor"
@@ -215,7 +215,9 @@
                     </p>
                   </div>
                   <div class="mt-4">
-                    <label class="form-label fw-bold">標籤</label>
+                    <label class="form-label fw-bold"
+                      >標籤 <span class="warning">*</span></label
+                    >
                     <div class="row g-1">
                       <template v-if="tempArticle.tag?.length">
                         <div
@@ -263,21 +265,35 @@
                   </div>
                   <div class="mt-4">
                     <label
-                      for="inputImg"
+                      for="articleImageFile"
                       class="form-label text-nowrap mb-0 fs-6 fw-bold"
-                      >圖片網址</label
+                      >圖片網址 <span class="warning">*</span></label
                     >
                     <input
-                      type="url"
-                      class="form-control mt-1"
-                      id="inputImg"
-                      v-model="tempArticle.image"
+                      class="form-control border-1 mt-1"
+                      type="file"
+                      ref="articleImageFile"
+                      id="articleImageFile"
+                      @change="uploadImage"
+                      accept=".jpg,.jpeg,.png"
                     />
-                    <img
-                      :src="tempArticle.image"
-                      alt="文章縮圖"
-                      class="w-100 mt-3"
-                    />
+                    <template v-if="!loadingUploadImage">
+                      <img
+                        :src="tempArticle.image"
+                        :alt="tempArticle.title"
+                        class="mt-4 w-100"
+                      />
+                    </template>
+                    <template v-else>
+                      <div
+                        class="d-flex flex-column justify-content-center align-items-center mt-6"
+                      >
+                        <div class="spinner-border mb-3" role="status">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p>圖片上傳中...</p>
+                      </div>
+                    </template>
                   </div>
                 </div>
               </div>
@@ -374,6 +390,7 @@ export default {
       editorConfig: {
         // toolbar: ['heading', '|', 'bold', 'italic', 'link'],
       },
+      loadingUploadImage: false,
     };
   },
   mixins: [getDate],
@@ -384,6 +401,7 @@ export default {
           isPublic: false,
           create_at: new Date().getTime() / 1000,
           tag: [],
+          image: '',
         };
         this.isNewArticle = true;
         editArticleModal.show();
@@ -456,6 +474,31 @@ export default {
       this.tempArticle.tag = [];
       this.tempArticle.tag.push('');
     },
+    uploadImage() {
+      const file = this.$refs.articleImageFile.files[0];
+      // 當上傳圖片後，若再次開啟選擇檔案視窗但未選擇檔案的話會觸發此方法，
+      // 因此判斷是否有選擇到檔案來決定是否繼續執行
+      if (!file) return;
+
+      const url = `${VITE_APP_URL}/api/${VITE_APP_PATH}/admin/upload`;
+      this.loadingUploadImage = true;
+
+      // file-to-upload (看文件要求)
+      const formData = new FormData();
+      formData.append('file-to-upload', file);
+
+      this.$http
+        .post(url, formData)
+        .then((res) => {
+          this.tempArticle.image = res.data.imageUrl;
+        })
+        .catch((err) => {
+          alert(err.response.data.message);
+        })
+        .finally(() => {
+          this.loadingUploadImage = false;
+        });
+    },
   },
   mounted() {
     this.getArticles();
@@ -475,5 +518,9 @@ export default {
 
 .select-sort {
   width: 200px;
+}
+
+.warning {
+  color: rgb(210, 22, 22);
 }
 </style>
