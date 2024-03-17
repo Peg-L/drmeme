@@ -97,72 +97,58 @@
           <div class="row">
             <div class="col-sm-4 order-2 order-sm-1">
               <div>
-                <label for="imageUrl" class="form-label fw-bold"
-                  >主要圖片 <span class="warning">*</span></label
+                <label for="productImageFile" class="form-label fw-bold"
+                  >產品首圖</label
                 >
                 <input
-                  type="url"
-                  pattern="https?://.+"
-                  class="form-control mb-2"
-                  id="imageUrl"
-                  placeholder="請輸入主圖連結"
-                  aria-describedby="productHelp"
-                  v-model="tempProduct.imageUrl"
+                  class="form-control border-1"
+                  type="file"
+                  ref="productImageFile"
+                  id="productImageFile"
+                  @change="updateImage('main')"
+                  accept=".jpg,.jpeg,.png"
                 />
-                <img :src="tempProduct.imageUrl" :alt="tempProduct.title" />
-              </div>
-              <!-- 新增多圖 -->
-              <div>
-                <h4 class="fs-6 fw-bold mt-4 mb-2">多圖設置</h4>
-                <div v-if="Array.isArray(tempProduct.imagesUrl)">
+                <template v-if="!loadingUploadImage">
+                  <img :src="tempProduct.imageUrl" alt="" class="mt-4" />
+                </template>
+                <template v-else>
                   <div
-                    v-for="(img, key) in tempProduct.imagesUrl"
-                    :key="key + 123"
-                    class="border border-2 border-primary-500 rounded-3 p-2 mb-3"
+                    class="d-flex flex-column justify-content-center align-items-center mt-6"
                   >
-                    <input
-                      class="form-control"
-                      type="url"
-                      pattern="https?://.+"
-                      v-model="tempProduct.imagesUrl[key]"
-                      name=""
-                      id=""
-                    />
-                    <img
-                      class="img-fluid mt-2"
-                      :src="tempProduct.imagesUrl[key]"
-                      alt=""
-                    />
+                    <div class="spinner-border mb-3" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p>圖片上傳中...</p>
                   </div>
-                  <button
-                    v-if="
-                      !tempProduct.imagesUrl.length ||
-                      tempProduct.imagesUrl[tempProduct.imagesUrl.length - 1]
-                    "
-                    class="btn btn-primary-500 btn-sm text-light fw-bold w-100"
-                    type="button"
-                    @click="tempProduct.imagesUrl.push('')"
+                </template>
+              </div>
+              <div>
+                <label for="productImagesFile" class="fs-6 fw-bold mt-4 mb-2"
+                  >其他圖片</label
+                >
+                <input
+                  class="form-control border-1"
+                  type="file"
+                  ref="productImagesFile"
+                  id="productImagesFile"
+                  @change="updateImage('multi')"
+                  accept=".jpg,.jpeg,.png"
+                />
+                <draggable v-model="tempProduct.imagesUrl">
+                  <div
+                    v-for="(element, index) in tempProduct.imagesUrl"
+                    :key="element"
+                    class="position-relative mt-4"
                   >
-                    新增圖片
-                  </button>
-                  <button
-                    v-else
-                    class="btn btn-outline-secondary-700 btn-sm fw-bold w-100"
-                    type="button"
-                    @click="tempProduct.imagesUrl.pop()"
-                  >
-                    刪除圖片
-                  </button>
-                </div>
-                <div v-else>
-                  <button
-                    type="button"
-                    class="btn btn-primary-500 btn-sm text-light fw-bold w-100"
-                    @click="createImage"
-                  >
-                    新增圖片
-                  </button>
-                </div>
+                    <img :src="element" alt="" />
+                    <button
+                      @click="updateImage('delete', index)"
+                      class="btn rounded-circle btn-sm btn-light position-absolute top-0 end-0 z-3 m-2"
+                    >
+                      X
+                    </button>
+                  </div>
+                </draggable>
               </div>
             </div>
 
@@ -334,6 +320,8 @@
 <script>
 import Modal from 'bootstrap/js/dist/modal';
 import PaginationComponent from '@/components/PaginationComponent.vue';
+// import draggable from 'vuedraggable';
+import { VueDraggableNext } from 'vue-draggable-next';
 
 const { VITE_APP_URL, VITE_APP_PATH } = import.meta.env;
 let productModal;
@@ -342,15 +330,18 @@ let delProductModal;
 export default {
   components: {
     PaginationComponent,
+    draggable: VueDraggableNext,
   },
   data() {
     return {
       products: [],
       tempProduct: {
         imagesUrl: [],
+        imageUrl: '',
       },
       isNew: false, // 是否建立新產品
       pages: {},
+      loadingUploadImage: false,
     };
   },
   methods: {
@@ -415,9 +406,44 @@ export default {
         delProductModal.hide();
       });
     },
-    createImage() {
-      this.tempProduct.imagesUrl = [];
-      this.tempProduct.imagesUrl.push('');
+    updateImage(status, index) {
+      let file;
+      if (status === 'delete') {
+        this.tempProduct.imagesUrl.splice(index, 1);
+        return;
+      } else if (status === 'main') {
+        this.loadingUploadImage = true;
+        file = this.$refs.productImageFile.files[0];
+      } else if (status === 'multi') {
+        file = this.$refs.productImagesFile.files[0];
+      }
+
+      // 當上傳圖片後，若再次開啟選擇檔案視窗但未選擇檔案的話會觸發此方法，
+      // 因此判斷是否有選擇到檔案來決定是否繼續執行
+      if (!file) return;
+
+      const url = `${VITE_APP_URL}/api/${VITE_APP_PATH}/admin/upload`;
+
+      // file-to-upload (看文件要求)
+      const formData = new FormData();
+      formData.append('file-to-upload', file);
+
+      this.$http
+        .post(url, formData)
+        .then((res) => {
+          if (status === 'main') {
+            this.tempProduct.imageUrl = res.data.imageUrl;
+            console.log(this.tempProduct);
+          } else if (status === 'multi') {
+            this.tempProduct.imagesUrl.push(res.data.imageUrl);
+          }
+        })
+        .catch((err) => {
+          alert(err.response.data.message);
+        })
+        .finally(() => {
+          this.loadingUploadImage = false;
+        });
     },
   },
   mounted() {
