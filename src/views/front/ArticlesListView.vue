@@ -16,7 +16,7 @@
       <div
         v-masonry-tile
         class="item col-sm-6 col-md-4 col-lg-3 mt-4"
-        v-for="article in articles"
+        v-for="article in allArticles"
         :key="article.id"
       >
         <RouterLink
@@ -38,25 +38,46 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'pinia';
+import { mapActions, mapState, mapWritableState } from 'pinia';
 import { useArticleStore } from '@/stores/articleStore';
 import BannerComponent from '@/components/BannerComponent.vue';
+const { VITE_APP_URL, VITE_APP_PATH } = import.meta.env;
 
 export default {
   components: {
     BannerComponent,
   },
   data() {
-    return {};
+    return {
+      // allArticles: [],
+      pageNum: 1,
+    };
   },
   computed: {
-    ...mapState(useArticleStore, ['articles']),
+    ...mapState(useArticleStore, ['articles', 'page']),
+    ...mapWritableState(useArticleStore, ['allArticles']),
   },
   methods: {
     ...mapActions(useArticleStore, ['getArticles']),
+    onScroll() {
+      // 判斷目前頁面超過最後一頁時，不繼續執行後面程式碼
+      if (this.page.total_pages <= this.pageNum) return;
+
+      // 判斷滑鼠滾動是否到達底部
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        // 呼叫 API 取得下一頁的文章資料
+        this.pageNum++;
+        this.getArticles(this.pageNum);
+      }
+    },
   },
   mounted() {
-    this.getArticles();
+    this.allArticles = [];
+    // 呼叫 API 取得第一頁的文章資料
+    this.getArticles(this.pageNum);
+
+    // 監聽滑鼠滾動事件
+    window.addEventListener('scroll', this.onScroll);
   },
 };
 </script>
