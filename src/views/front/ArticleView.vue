@@ -55,13 +55,13 @@
       </div>
       <div class="col-md-4">
         <div class="ps-lg-20 pt-lg-10">
-          <h2 class="fs-5 fw-bold">標籤</h2>
+          <h2 class="fs-5 fw-bold mt-10 mt-md-0">標籤</h2>
           <div class="mt-4">
             <a class="text-secondary-700 me-3" v-for="tag in allTags" :key="tag"
               ><i class="fa-solid fa-tag"></i>{{ tag }}</a
             >
           </div>
-          <h2 class="fs-5 fw-bold mt-md-10 mb-4">最新文章</h2>
+          <h2 class="fs-5 fw-bold mt-md-10 mt-4">最新文章</h2>
           <div v-for="article in fiveArticles" :key="article.id" class="mt-2">
             <RouterLink :to="`/articles/${article.id}`" class="fw-bold">{{
               article.title

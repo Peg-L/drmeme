@@ -209,9 +209,14 @@
                   <div class="mt-4">
                     <p>
                       <span class="fw-bold">建立日期</span
-                      ><span class="ms-2">{{
-                        getDate(tempArticle.create_at)
-                      }}</span>
+                      ><span class="ms-2">
+                        <VueDatePicker
+                          v-model="tempArticle.create_at"
+                          model-type="timestamp"
+                          :max-date="date"
+                          placeholder="選擇日期"
+                        />
+                      </span>
                     </p>
                   </div>
                   <div class="mt-4">
@@ -369,14 +374,18 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import Modal from 'bootstrap/js/dist/modal';
 import PaginationComponent from '@/components/PaginationComponent.vue';
 import getDate from '@/mixins/getDate.js';
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
 
 let editArticleModal;
 let delArticleModal;
 const { VITE_APP_URL, VITE_APP_PATH } = import.meta.env;
+const date = new Date();
 
 export default {
   components: {
     PaginationComponent,
+    VueDatePicker,
   },
   data() {
     return {
@@ -391,6 +400,8 @@ export default {
         // toolbar: ['heading', '|', 'bold', 'italic', 'link'],
       },
       loadingUploadImage: false,
+      maxDate: date,
+      date,
     };
   },
   mixins: [getDate],
@@ -399,7 +410,7 @@ export default {
       if (status === 'create') {
         this.tempArticle = {
           isPublic: false,
-          create_at: new Date().getTime() / 1000,
+          create_at: date,
           tag: [],
           image: '',
         };

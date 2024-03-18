@@ -35,12 +35,13 @@
                 </div>
               </div>
             </div>
-            <button
+            <RouterLink
+              to="/articles/-NtEbjf_y0x19APmbqBX"
               type="button"
               class="py-4 px-15 fs-4 btn-dark border-0 button-hover"
             >
               斜槓故事
-            </button>
+            </RouterLink>
           </div>
         </div>
         <!-- 首頁 banner 右側主圖  -->
@@ -110,12 +111,13 @@
         </div>
       </div>
       <div>
-        <button
+        <RouterLink
+          to="/articles/-NtEbjf_y0x19APmbqBX"
           type="button"
           class="py-4 px-15 fs-4 btn-dark border-0 button-hover"
         >
           斜槓故事
-        </button>
+        </RouterLink>
       </div>
     </div>
   </div>
