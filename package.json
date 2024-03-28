@@ -12,6 +12,8 @@
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^41.1.0",
     "@ckeditor/ckeditor5-vue": "^5.1.0",
+    "@cloudinary/url-gen": "^1.19.0",
+    "@cloudinary/vue": "^1.12.1",
     "@fortawesome/vue-fontawesome": "^3.0.5",
     "@vee-validate/i18n": "^4.12.5",
     "@vee-validate/rules": "^4.12.5",
@@ -21,6 +23,7 @@
     "bootstrap-icons": "^1.9.1",
     "eslint-plugin-n": "^15.6.1",
     "eslint-plugin-promise": "^6.1.1",
+    "firebase": "^10.9.0",
     "lodash": "^4.17.21",
     "pinia": "^2.1.7",
     "swiper": "^11.0.5",

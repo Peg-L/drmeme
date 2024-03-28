@@ -54,6 +54,7 @@ app.use(
   router
 );
 app.use(CKEditor);
+
 app.component('VForm', Form);
 app.component('VField', Field);
 app.component('ErrorMessage', ErrorMessage);

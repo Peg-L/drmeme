@@ -73,9 +73,10 @@
             <tr v-for="article in articles" :key="article.id">
               <td>
                 <img
-                  :src="article.image"
-                  :alt="article.title"
+                  :src="article.image['1000w']"
                   class="thumbnail"
+                  :alt="article.title"
+                  :srcset="`${article.image['300w']} 300w, ${article.image['600w']} 600w, ${article.image['1000w']} 1000w`"
                 />
               </td>
               <td>{{ article.title }}</td>
@@ -116,7 +117,7 @@
         <div class="d-flex justify-content-center">
           <PaginationComponent :pages="pages" :get-items="getArticles" />
           <!-- emit 寫法 -->
-          <!-- <PaginationComponent :pages="pages" @change-page="getProducts" /> -->
+          <!-- <PaginationComponent :pages="pages" @change-page="getArticles" /> -->
         </div>
       </div>
     </div>
@@ -272,17 +273,41 @@
                     <label
                       for="articleImageFile"
                       class="form-label text-nowrap mb-0 fs-6 fw-bold"
-                      >圖片網址 <span class="warning">*</span></label
+                      >上傳圖片 <span class="warning">*</span></label
                     >
-                    <input
+                    <!-- <input
                       class="form-control border-1 mt-1"
                       type="file"
                       ref="articleImageFile"
                       id="articleImageFile"
                       @change="uploadImage"
                       accept=".jpg,.jpeg,.png"
-                    />
-                    <template v-if="!loadingUploadImage">
+                    /> -->
+                    <button
+                      class="btn text-light fw-bold"
+                      :class="{
+                        'btn-primary-500': true,
+                        'btn-disabled': isDisabled,
+                      }"
+                      @click="handleUpdateImage"
+                      :disabled="isDisabled"
+                    >
+                      上傳圖片
+                    </button>
+                    <div
+                      v-if="
+                        tempArticle.image &&
+                        Object.keys(tempArticle.image).length > 0
+                      "
+                    >
+                      <img
+                        class="mt-4 w-100"
+                        :src="tempArticle.image['1000w']"
+                        alt="首圖"
+                        :srcset="`${tempArticle.image['300w']} 300w, ${tempArticle.image['600w']} 600w, ${tempArticle.image['1000w']} 1000w`"
+                      />
+                    </div>
+                    <!-- <template v-if="!loadingUploadImage">
                       <img
                         :src="tempArticle.image"
                         :alt="tempArticle.title"
@@ -298,7 +323,7 @@
                         </div>
                         <p>圖片上傳中...</p>
                       </div>
-                    </template>
+                    </template> -->
                   </div>
                 </div>
               </div>
@@ -402,6 +427,10 @@ export default {
       loadingUploadImage: false,
       maxDate: date,
       date,
+
+      // cloudinary
+      isDisabled: false,
+      scriptLoaded: false,
     };
   },
   mixins: [getDate],
@@ -510,11 +539,80 @@ export default {
           this.loadingUploadImage = false;
         });
     },
+    handleUpdateImage() {
+      this.isDisabled = true;
+      window.cloudinary.openUploadWidget(
+        {
+          cloudName: this.cloudName,
+          uploadPreset: this.uploadPreset,
+          sources: ['local', 'url'],
+          tags: ['articles'],
+          clientAllowedFormats: ['image'],
+          resourceType: 'image',
+          maxFiles: 1,
+        },
+        this.processResults
+      );
+    },
+    processResults(error, result) {
+      if (result.event === 'close') {
+        this.isDisabled = false;
+      }
+      if (result && result.event === 'success') {
+        const secureUrl = result.info.secure_url;
+
+        const sizes = [
+          { suffix: 'w_300', width: '300w' },
+          { suffix: 'w_900', width: '600w' },
+          { suffix: 'w_1200', width: '1000w' },
+        ];
+
+        // 創建圖片空物件
+        const imageUrls = {};
+
+        // 儲存進物件
+        sizes.forEach((size) => {
+          const previewUrl = secureUrl.replace(
+            '/upload/',
+            `/upload/${size.suffix}/f_webp,q_auto/`
+          );
+          imageUrls[size.width] = previewUrl;
+        });
+
+        this.tempArticle.image = imageUrls;
+      }
+
+      if (error) {
+        console.error('Error occurred:', error);
+      }
+
+      this.isDisabled = false;
+    },
   },
   mounted() {
     this.getArticles();
     editArticleModal = new Modal(this.$refs.editArticleModal);
     delArticleModal = new Modal(this.$refs.delArticleModal);
+
+    // cloudinary
+    const script = document.createElement('script');
+    script.setAttribute('async', '');
+    script.setAttribute('id', 'uw');
+    script.src = 'https://upload-widget.cloudinary.com/global/all.js';
+    script.addEventListener('load', () => (this.scriptLoaded = true));
+
+    script.onerror = () => {
+      console.error('Failed to load third-party script.');
+    };
+    document.head.appendChild(script);
+  },
+  computed: {
+    cloudName() {
+      return import.meta.env.VITE_CLOUD_NAME;
+    },
+    uploadPreset() {
+      return import.meta.env.VITE_UPLOAD_PRESET;
+    },
   },
 };
 </script>

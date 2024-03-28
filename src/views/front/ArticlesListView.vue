@@ -24,9 +24,10 @@
           :to="`/articles/${article.id}`"
         >
           <img
-            :src="article.image"
-            :alt="article.title"
             class="img-fluid rounded-3"
+            :src="article.image['1000w']"
+            alt="首圖"
+            :srcset="`${article.image['300w']} 300w, ${article.image['600w']} 600w, ${article.image['1000w']} 1000w`"
           />
           <h2 class="fs-6 fw-bold mt-2">
             {{ article.title }}

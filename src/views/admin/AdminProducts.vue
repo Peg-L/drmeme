@@ -27,7 +27,7 @@
           <td>
             <img
               class="thumbnail"
-              :src="product.imageUrl"
+              :src="product.imageUrl['300w']"
               :alt="product.title"
             />
           </td>
@@ -100,58 +100,74 @@
                 <label for="productImageFile" class="form-label fw-bold"
                   >產品首圖</label
                 >
-                <input
-                  class="form-control border-1"
-                  type="file"
-                  ref="productImageFile"
-                  id="productImageFile"
-                  @change="updateImage('main')"
-                  accept=".jpg,.jpeg,.png"
-                />
-                <template v-if="!loadingUploadImage">
-                  <img :src="tempProduct.imageUrl" alt="" class="mt-4" />
-                </template>
-                <template v-else>
-                  <div
-                    class="d-flex flex-column justify-content-center align-items-center mt-6"
+                <!-- cloudinary -->
+                <div>
+                  <button
+                    class="btn text-light fw-bold"
+                    :class="{
+                      'btn-primary-500': true,
+                      'btn-disabled': isDisabledMain,
+                    }"
+                    @click="handleUpdateImage('main')"
+                    :disabled="isDisabledMain"
                   >
-                    <div class="spinner-border mb-3" role="status">
-                      <span class="visually-hidden">Loading...</span>
-                    </div>
-                    <p>圖片上傳中...</p>
+                    上傳圖片
+                  </button>
+                  <div
+                    v-if="
+                      tempProduct.imageUrl &&
+                      Object.keys(tempProduct.imageUrl).length > 0
+                    "
+                  >
+                    <img
+                      class="mt-2"
+                      :src="tempProduct.imageUrl['1000w']"
+                      alt="首圖"
+                      :srcset="`${tempProduct.imageUrl['300w']} 300w, ${tempProduct.imageUrl['600w']} 600w, ${tempProduct.imageUrl['1000w']} 1000w`"
+                    />
                   </div>
-                </template>
+                </div>
               </div>
+
               <div>
                 <label for="productImagesFile" class="fs-6 fw-bold mt-4 mb-2"
                   >其他圖片</label
                 >
-                <input
-                  class="form-control border-1"
-                  type="file"
-                  ref="productImagesFile"
-                  id="productImagesFile"
-                  @change="updateImage('multi')"
-                  accept=".jpg,.jpeg,.png"
-                />
-                <draggable v-model="tempProduct.imagesUrl">
-                  <div
-                    v-for="(element, index) in tempProduct.imagesUrl"
-                    :key="element"
-                    class="position-relative mt-4"
+                <div>
+                  <button
+                    class="btn text-light fw-bold"
+                    :class="{
+                      'btn-primary-500': true,
+                      'btn-disabled': isDisabledMulti,
+                    }"
+                    @click="handleUpdateImage('multi')"
+                    :disabled="isDisabledMulti"
                   >
-                    <img :src="element" alt="" />
-                    <button
-                      @click="updateImage('delete', index)"
-                      class="btn rounded-circle btn-sm btn-light position-absolute top-0 end-0 z-3 m-2"
+                    上傳圖片
+                  </button>
+                  <draggable v-model="tempProduct.imagesUrl">
+                    <div
+                      v-for="(image, index) in tempProduct.imagesUrl"
+                      :key="image"
+                      class="position-relative mt-4"
                     >
-                      X
-                    </button>
-                  </div>
-                </draggable>
+                      <img
+                        class="mt-2"
+                        :src="image['1000w']"
+                        alt="其他圖片"
+                        :srcset="`${image['300w']} 300w, ${image['600w']} 600w, ${image['1000w']} 1000w`"
+                      />
+                      <button
+                        @click="handleUpdateImage('delete', index)"
+                        class="btn rounded-circle btn-sm btn-light position-absolute top-0 end-0 z-3 m-2"
+                      >
+                        X
+                      </button>
+                    </div>
+                  </draggable>
+                </div>
               </div>
             </div>
-
             <div class="col-sm-8 order-1 order-sm-2">
               <div class="mb-3">
                 <label for="title" class="form-label fw-bold"
@@ -226,14 +242,11 @@
                 <label for="description" class="form-label fw-bold mb-1"
                   >產品描述</label
                 >
-                <textarea
-                  id="description"
-                  type="text"
-                  class="form-control"
-                  placeholder="請輸入產品描述"
+                <ckeditor
+                  :editor="editor"
                   v-model="tempProduct.description"
-                >
-                </textarea>
+                  :config="editorConfig"
+                ></ckeditor>
               </div>
               <div class="mb-3">
                 <div class="form-check">
@@ -320,8 +333,8 @@
 <script>
 import Modal from 'bootstrap/js/dist/modal';
 import PaginationComponent from '@/components/PaginationComponent.vue';
-// import draggable from 'vuedraggable';
 import { VueDraggableNext } from 'vue-draggable-next';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const { VITE_APP_URL, VITE_APP_PATH } = import.meta.env;
 let productModal;
@@ -334,14 +347,25 @@ export default {
   },
   data() {
     return {
+      editor: ClassicEditor,
+      editorConfig: {
+        // toolbar: ['heading', '|', 'bold', 'italic', 'link'],
+      },
       products: [],
       tempProduct: {
         imagesUrl: [],
-        imageUrl: '',
+        imageUrl: {},
       },
       isNew: false, // 是否建立新產品
       pages: {},
       loadingUploadImage: false,
+      selectedFile: {},
+
+      // cloudinary
+      isDisabledMain: false,
+      isDisabledMulti: false,
+      scriptLoaded: false,
+      uploadMode: '',
     };
   },
   methods: {
@@ -371,6 +395,7 @@ export default {
       if (status === 'create') {
         this.tempProduct = {
           imagesUrl: [],
+          imageUrl: {},
         };
 
         this.isNew = true;
@@ -406,50 +431,117 @@ export default {
         delProductModal.hide();
       });
     },
-    updateImage(status, index) {
-      let file;
-      if (status === 'delete') {
-        this.tempProduct.imagesUrl.splice(index, 1);
-        return;
-      } else if (status === 'main') {
-        this.loadingUploadImage = true;
-        file = this.$refs.productImageFile.files[0];
+    handleUpdateImage(status, index) {
+      // 透過傳入的狀態（status）參數決定要執行的操作
+      if (status === 'main') {
+        this.uploadMode = status;
+        this.uploadMainImage();
       } else if (status === 'multi') {
-        file = this.$refs.productImagesFile.files[0];
+        this.uploadMode = status;
+        this.uploadMultiImages();
+      } else if (status === 'delete') {
+        this.tempProduct.imagesUrl.splice(index, 1);
+      }
+    },
+    processResults(error, result) {
+      if (result.event === 'close') {
+        this.isDisabledMain = false;
+        this.isDisabledMulti = false; // 關閉多圖片上傳按鈕的禁用狀態
+      }
+      if (result && result.event === 'success') {
+        const secureUrl = result.info.secure_url;
+
+        const sizes = [
+          { suffix: 'w_300', width: '300w' },
+          { suffix: 'w_900', width: '600w' },
+          { suffix: 'w_1200', width: '1000w' },
+        ];
+
+        // 創建圖片空物件
+        const imageUrls = {};
+
+        // 儲存進物件
+        sizes.forEach((size) => {
+          const previewUrl = secureUrl.replace(
+            '/upload/',
+            `/upload/${size.suffix}/f_webp,q_auto/`
+          );
+          imageUrls[size.width] = previewUrl;
+        });
+
+        // 根據狀態更新 tempProduct 中的屬性
+        if (this.uploadMode === 'main') {
+          this.tempProduct.imageUrl = imageUrls;
+        } else if (this.uploadMode === 'multi') {
+          // 將多張圖片的每個圖片 URL 包裝成物件，並放入 imagesUrl 陣列中
+          this.tempProduct.imagesUrl.push(imageUrls);
+        }
       }
 
-      // 當上傳圖片後，若再次開啟選擇檔案視窗但未選擇檔案的話會觸發此方法，
-      // 因此判斷是否有選擇到檔案來決定是否繼續執行
-      if (!file) return;
+      if (error) {
+        console.error('Error occurred:', error);
+      }
 
-      const url = `${VITE_APP_URL}/api/${VITE_APP_PATH}/admin/upload`;
+      this.isDisabledMain = false;
+      this.isDisabledMulti = false;
+    },
 
-      // file-to-upload (看文件要求)
-      const formData = new FormData();
-      formData.append('file-to-upload', file);
+    uploadMainImage() {
+      this.isDisabledMain = true;
+      window.cloudinary.openUploadWidget(
+        {
+          cloudName: this.cloudName,
+          uploadPreset: this.uploadPreset,
+          sources: ['local', 'url'],
+          tags: ['products'],
+          clientAllowedFormats: ['image'],
+          resourceType: 'image',
+          maxFiles: 1,
+        },
+        this.processResults
+      );
+    },
 
-      this.$http
-        .post(url, formData)
-        .then((res) => {
-          if (status === 'main') {
-            this.tempProduct.imageUrl = res.data.imageUrl;
-            console.log(this.tempProduct);
-          } else if (status === 'multi') {
-            this.tempProduct.imagesUrl.push(res.data.imageUrl);
-          }
-        })
-        .catch((err) => {
-          alert(err.response.data.message);
-        })
-        .finally(() => {
-          this.loadingUploadImage = false;
-        });
+    uploadMultiImages() {
+      this.isDisabledMulti = true;
+      window.cloudinary.openUploadWidget(
+        {
+          cloudName: this.cloudName,
+          uploadPreset: this.uploadPreset,
+          sources: ['local', 'url'],
+          tags: ['products'],
+          clientAllowedFormats: ['image'],
+          resourceType: 'image',
+          multiple: true, // 允許多張圖片上傳
+        },
+        this.processResults
+      );
     },
   },
-  mounted() {
+  async mounted() {
     this.getProducts();
     productModal = new Modal(this.$refs.productModal);
     delProductModal = new Modal(this.$refs.delProductModal);
+
+    // cloudinary
+    const script = document.createElement('script');
+    script.setAttribute('async', '');
+    script.setAttribute('id', 'uw');
+    script.src = 'https://upload-widget.cloudinary.com/global/all.js';
+    script.addEventListener('load', () => (this.scriptLoaded = true));
+
+    script.onerror = () => {
+      console.error('Failed to load third-party script.');
+    };
+    document.head.appendChild(script);
+  },
+  computed: {
+    cloudName() {
+      return import.meta.env.VITE_CLOUD_NAME;
+    },
+    uploadPreset() {
+      return import.meta.env.VITE_UPLOAD_PRESET;
+    },
   },
 };
 </script>
