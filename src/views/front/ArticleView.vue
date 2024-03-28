@@ -18,11 +18,14 @@
             ><i class="fa-solid fa-tag me-1"></i>{{ tag }}</span
           >
         </div>
-        <img
-          class="w-100 mt-4 rounded-3"
-          :src="article.image"
-          :alt="article.title"
-        />
+        <div v-if="article.image && Object.keys(article.image).length > 0">
+          <img
+            class="mt-4 w-100 rounded-3"
+            :src="article.image['1000w']"
+            alt="首圖"
+            :srcset="`${article.image['300w']} 300w, ${article.image['600w']} 600w, ${article.image['1000w']} 1000w`"
+          />
+        </div>
         <div class="mt-4 p-6" v-html="article.content"></div>
         <hr />
         <div class="row justify-content-between">
