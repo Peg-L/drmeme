@@ -2,15 +2,14 @@
   <div class="container pb-10 pb-md-20">
     <div class="row justify-content-center">
       <div class="col-md-5">
-        <div>
+        <div></div>
+        <div v-for="image in product.imagesUrl" :key="image">
           <img
-            :src="product.imageUrl"
-            :alt="product.title"
             class="aspect-ratio-img"
+            :src="image['1000w']"
+            alt="其他圖片"
+            :srcset="`${image['300w']} 300w, ${image['600w']} 600w, ${image['1000w']} 1000w`"
           />
-        </div>
-        <div v-for="(image, key) in product.imagesUrl" :key="image">
-          <img :src="image" :alt="key + 123" class="aspect-ratio-img" />
         </div>
       </div>
       <div class="col-md-5 sticky-top vh-100">
@@ -125,9 +124,8 @@
                 role="tabpanel"
                 aria-labelledby="description-tab"
                 tabindex="0"
-              >
-                {{ product.description }}
-              </div>
+                v-html="product.description"
+              ></div>
               <div
                 class="tab-pane fade p-6"
                 id="wash-way-tab-pane"
@@ -211,9 +209,10 @@
                   ></i>
                 </button>
                 <img
-                  :src="product.imageUrl"
                   class="card-img-top aspect-ratio-item"
-                  :alt="product.title"
+                  :src="product.imageUrl['1000w']"
+                  alt="product.title"
+                  :srcset="`${product.imageUrl['300w']} 300w, ${product.imageUrl['600w']} 600w, ${product.imageUrl['1000w']} 1000w`"
                 />
               </div>
               <div class="card-body px-2">

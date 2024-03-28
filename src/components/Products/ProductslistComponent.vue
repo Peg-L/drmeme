@@ -19,9 +19,10 @@
               ></i>
             </button>
             <img
-              :src="product.imageUrl"
+              :src="product.imageUrl['1000w']"
               class="card-img-top aspect-ratio-item"
               :alt="product.title"
+              :srcset="`${product.imageUrl['300w']} 300w, ${product.imageUrl['600w']} 600w, ${product.imageUrl['1000w']} 1000w`"
             />
           </div>
           <div class="card-body px-2">
