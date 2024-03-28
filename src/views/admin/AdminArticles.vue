@@ -307,23 +307,6 @@
                         :srcset="`${tempArticle.image['300w']} 300w, ${tempArticle.image['600w']} 600w, ${tempArticle.image['1000w']} 1000w`"
                       />
                     </div>
-                    <!-- <template v-if="!loadingUploadImage">
-                      <img
-                        :src="tempArticle.image"
-                        :alt="tempArticle.title"
-                        class="mt-4 w-100"
-                      />
-                    </template>
-                    <template v-else>
-                      <div
-                        class="d-flex flex-column justify-content-center align-items-center mt-6"
-                      >
-                        <div class="spinner-border mb-3" role="status">
-                          <span class="visually-hidden">Loading...</span>
-                        </div>
-                        <p>圖片上傳中...</p>
-                      </div>
-                    </template> -->
                   </div>
                 </div>
               </div>
